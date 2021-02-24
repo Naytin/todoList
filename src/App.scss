@@ -1,31 +1,12 @@
-.App {
+.is-done {
+  opacity: 0.5;
+}
+
+input {
+  padding: 5px!important;
+}
+
+.task__wrapper {
   display: flex;
-  justify-content: space-around;
+  align-items: center;
 }
-button + button {
-    margin-left: 10px;
-}
-
-.error {
-    color: red;
-  }
-  
-  .error__input {
-    padding: 5px;
-    border: solid 1px red;
-  }
-  
-  .default__input {
-    padding: 5px;
-    border: solid 1px #06f6e1;
-  }
-  .is__done {
-    opacity: 0.5;
-  }
-  .active {
-    background-color: #06f6e1;
-  }
-
-  .title__wrapper {
-    display: flex;
-  }
