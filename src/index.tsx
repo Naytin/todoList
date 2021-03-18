@@ -8,7 +8,7 @@ import {store} from "./state/store";
 
 ReactDOM.render(
     <Provider store={store} >
-        <App key={'1212121'}/>
+        <App />
     </Provider>
 ,
   document.getElementById('root')

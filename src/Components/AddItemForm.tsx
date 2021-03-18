@@ -1,38 +1,48 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
-import {TextField} from "@material-ui/core";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
+import {IconButton, TextField} from "@material-ui/core";
+import {AddBox} from "@material-ui/icons";
 
 type PropsType = {
-    value: string
-    onChange: (newValue: string) => void
+    addItem: (title: string) => void
 }
 
-export const EditableSpan = (props: PropsType) => {
-    const [editMode, setEditMode] = React.useState(false)
-    const [title, setTitle] = useState(props.value)
+export const AddItemForm = React.memo((props: PropsType) => {
+    console.log('AddItemForm called')
+    let [error, setError] = useState<string | null>(null)
+    let [title, setTitle] = useState("")
 
-    const activateEditMode = () => {
-        setEditMode(true)
-        setTitle(props.value)
+    const addItem = () => {
+        if (title.trim() !== "") {
+            props.addItem(title.trim());
+            setTitle("");
+        } else {
+            setError("Title is required");
+        }
     }
-    const activateViewMode = () => {
-        setEditMode(false)
-        props.onChange(title)
-
-    }
-    const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        if(error !== null) {
+            setError(null);
+        }
         if (e.key === 'Enter') {
-            setEditMode(false)
-            props.onChange(title)
+            addItem();
         }
     }
 
-    return (
-        editMode ?
-            <TextField variant='outlined' value={title} onChange={onChangeStatusHandler} onKeyPress={onKeyPressHandler} autoFocus onBlur={activateViewMode}/>
-            :
-            <span onDoubleClick={activateEditMode}>{title}</span>
-    )
-}
+    return <div>
+        <TextField value={title}
+                   onChange={onChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   error={!!error}
+                   label={title}
+                   helperText={error}
+                   variant='outlined'
+                   className=''
+        />
+        <IconButton size='small' color='primary' onClick={addItem}>
+            <AddBox/>
+        </IconButton>
+    </div>
+})
