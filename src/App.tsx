@@ -1,12 +1,13 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.scss';
 import {AppBar, Button, Container, Grid, IconButton, makeStyles, Paper, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {AddItemForm} from "./Components/AddItemForm";
-import {TaskType, Todolist} from "./TodoList";
+import {Todolist} from "./TodoList";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
-import {addTodolistAC} from "./state/todolistReducer";
+import {addTodolistsTC, fetchTodolistsTC} from "./state/todolistReducer";
+import {TaskType} from "./api/task-api";
 
 export type FilterValuesType = "all" | "active" | "completed";
 
@@ -38,8 +39,12 @@ function App() {
     const tasks = useSelector<AppRootStateType,TaskStateType>(state => state.tasks);
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        dispatch(fetchTodolistsTC())
+    },[])
+
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodolistAC(title))
+        dispatch(addTodolistsTC(title))
     },[])
 
     return (
@@ -65,7 +70,7 @@ function App() {
                     {todolists.map(t => {
                         let allTodoLists = tasks[t.id];
                         return (
-                            <Grid item style={{padding: '20px'}}>
+                            <Grid key={t.id} item style={{padding: '20px'}}>
                                 <Paper style={{padding: '10px'}}>
                                     <Todolist key={t.id}
                                               title={t.title}

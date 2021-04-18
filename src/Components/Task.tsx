@@ -3,33 +3,32 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
-import {TaskType} from "../TodoList";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasksReducer";
+import { removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from "../state/tasksReducer";
+import {TaskStatuses, TaskType} from "../api/task-api";
 
-type PropsType = {
+export type PropsType = {
     task: TaskType
     todolistId: string
 }
 
-
 const Task = React.memo(({todolistId, task}: PropsType) => {
-    console.log('task was called')
     const dispatch = useDispatch()
 
     const removeTask = useCallback(() => {
-        dispatch(removeTaskAC(task.id, todolistId))
+        dispatch(removeTaskTC(task.id, todolistId))
     },[task.id,todolistId])
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        dispatch(changeTaskStatusAC(task.id, e.currentTarget.checked, todolistId));
+        let newIsDoneValue = e.currentTarget.checked
+        dispatch(updateTaskStatusTC(task.id,  todolistId,newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New));
     },[task.id,todolistId])
     const changeTaskTitle = useCallback((newTitle: string) => {
-        dispatch(changeTaskTitleAC(task.id, newTitle, todolistId));
+        dispatch(updateTaskTitleTC(task.id, newTitle, todolistId));
     },[task.id,todolistId])
 
 
     return (
-        <div className={task.isDone ? "task__wrapper is-done" : "task__wrapper"}>
-            <Checkbox color='primary'  onChange={onChangeHandler} checked={task.isDone}/>
+        <div className={task.status === TaskStatuses.Completed ? "task__wrapper is-done" : "task__wrapper"}>
+            <Checkbox color='primary'  onChange={onChangeHandler} checked={task.status === TaskStatuses.Completed}/>
             <EditableSpan value={task.title} onChange={changeTaskTitle}/>
             <IconButton onClick={removeTask}><Delete/></IconButton>
         </div>

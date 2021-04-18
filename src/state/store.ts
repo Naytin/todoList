@@ -1,10 +1,12 @@
 import {tasksReducer} from './tasksReducer';
 import {todolistReducer} from './todolistReducer';
-import {combineReducers, createStore} from 'redux';
+import {combineReducers, createStore, applyMiddleware} from 'redux';
+import thunk, {ThunkAction} from 'redux-thunk'
+
 
 // объединяя reducer-ы с помощью combineReducers,
 // мы задаём структуру нашего единственного объекта-состояния
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     tasks: tasksReducer,
     todolists: todolistReducer
 })
@@ -16,8 +18,8 @@ export type AppRootStateType = ReturnType<typeof rootReducer>
 //for redux-devtool
 // @ts-ignore
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
-export const store = createStore(rootReducer,composeEnhancers())
+export const store = createStore(rootReducer,composeEnhancers(applyMiddleware(thunk)))
 
-// а это, чтобы можно было в консоли браузера обращаться к store в любой момент
+// а это, чтобы можно было в консоли браузера обращаться к store в любой момент store.getSstate
 // @ts-ignore
 window.store = store;
