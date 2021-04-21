@@ -10,7 +10,7 @@ export const GetTask = () => {
     useEffect(() => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
-        const todolistId = '11ccbb75-dc9b-4bbf-8cdd-e0431dea9398';
+        const todolistId = 'bef77474-c58f-4e9a-b67b-8afeab8bc9b3';
         tasksAPI.getTasks(todolistId)
             .then((res) => {
                 setState(res.data);
@@ -22,7 +22,7 @@ export const GetTask = () => {
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
 
-    const todolistId = '11ccbb75-dc9b-4bbf-8cdd-e0431dea9398';
+    const todolistId = 'bef77474-c58f-4e9a-b67b-8afeab8bc9b3';
     useEffect(() => {
         tasksAPI.createTask(todolistId,'NEW APAPAPAPA')
             .then((res) => {
@@ -35,9 +35,9 @@ export const CreateTask = () => {
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const todolistId = '11ccbb75-dc9b-4bbf-8cdd-e0431dea9398';
-        const taskId = '35db1bde-b781-43ca-a4a6-afa03884c70a';
-        tasksAPI.deleteTask(todolistId, taskId)
+        const todolistId = 'bef77474-c58f-4e9a-b67b-8afeab8bc9b3';
+        const taskId = '45edaee4-afd8-4c3e-beae-8813a5bc36fa';
+        tasksAPI.deleteTask(taskId,todolistId)
             .then((res) => {
                 setState(res.data);
             })
@@ -48,9 +48,9 @@ export const DeleteTask = () => {
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const todolistId = '11ccbb75-dc9b-4bbf-8cdd-e0431dea9398'
-        const taskId = '35db1bde-b781-43ca-a4a6-afa03884c70a';
-        tasksAPI.updateTask(todolistId,taskId, {title: '',
+        const todolistId = 'bef77474-c58f-4e9a-b67b-8afeab8bc9b3'
+        const taskId = '5c23eef3-4a49-4418-a1c4-cd94075912f9';
+        tasksAPI.updateTask(todolistId,taskId, {title: 'TASK',
             description: 'string',
             status: 1,
             priority: -2,

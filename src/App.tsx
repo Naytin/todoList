@@ -76,7 +76,7 @@ function App() {
                                               title={t.title}
                                               tasks={allTodoLists}
                                               filter={t.filter}
-                                              id={t.id}
+                                              todolistId={t.id}
                                     />
                                 </Paper>
                             </Grid>
