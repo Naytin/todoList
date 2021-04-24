@@ -1,7 +1,7 @@
 import React from 'react'
 import {Provider} from 'react-redux'
 import { createStore} from 'redux'
-import { rootReducer} from '../state/store'
+import { rootReducer} from '../app/store'
 
 export const storyBookStore = createStore(rootReducer);
 
