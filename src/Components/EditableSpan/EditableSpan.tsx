@@ -5,19 +5,22 @@ import {TextField} from "@material-ui/core";
 export type PropsType = {
     value: string
     onChange: (newValue: string) => void
+    disabled?: boolean
 }
 
-export const EditableSpan = React.memo((props: PropsType) => {
+export const EditableSpan = React.memo(({value, onChange, disabled = false}: PropsType) => {
     const [editMode, setEditMode] = React.useState(false)
-    const [title, setTitle] = useState(props.value)
+    const [title, setTitle] = useState(value)
 
     const activateEditMode = () => {
-        setEditMode(true)
-        setTitle(props.value)
+        if(!disabled) {
+            setEditMode(true)
+            setTitle(value)
+        }
     }
     const activateViewMode = () => {
         setEditMode(false)
-        props.onChange(title)
+        onChange(title)
     }
     const onChangeStatusHandler =(e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -25,7 +28,7 @@ export const EditableSpan = React.memo((props: PropsType) => {
     const onKeyPressHandler =(e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             setEditMode(false)
-            props.onChange(title)
+            onChange(title)
         }
     }
 

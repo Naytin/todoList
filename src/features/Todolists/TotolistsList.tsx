@@ -32,6 +32,7 @@ export const TodolistsList: React.FC = () => {
                     <Grid key={t.id} item style={{padding: '20px'}}>
                         <Paper style={{padding: '10px'}}>
                             <Todolist key={t.id}
+                                      todolist={t}
                                       title={t.title}
                                       tasks={allTodoLists}
                                       filter={t.filter}

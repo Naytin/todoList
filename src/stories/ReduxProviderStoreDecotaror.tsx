@@ -1,9 +1,10 @@
 import React from 'react'
 import {Provider} from 'react-redux'
-import { createStore} from 'redux'
+import {applyMiddleware, createStore} from 'redux'
 import { rootReducer} from '../app/store'
+import thunk from "redux-thunk";
 
-export const storyBookStore = createStore(rootReducer);
+export const storyBookStore = createStore(rootReducer,applyMiddleware(thunk));
 
 export const ReduxStoreProviderDecorator = (storyFn: any) => (
     <Provider store={storyBookStore}>{storyFn()}</Provider>

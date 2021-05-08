@@ -1,8 +1,21 @@
 import React from 'react';
 import './App.scss';
-import {AppBar, Button, Container, IconButton, makeStyles, Toolbar, Typography} from "@material-ui/core";
+import {
+    AppBar,
+    Button,
+    Container,
+    IconButton,
+    LinearProgress,
+    makeStyles,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {TodolistsList} from "../features/Todolists/TotolistsList";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./store";
+import {RequestStatusType} from "./app.Reducer";
+import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,9 +30,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
+    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const classes = useStyles();
     return (
         <div className="App">
+            <ErrorSnackBar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -31,6 +46,7 @@ function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            {status === 'loading' && <LinearProgress color={"primary"}/>}
             <Container fixed>
                 <TodolistsList/>
             </Container>

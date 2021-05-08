@@ -25,12 +25,17 @@ const Task = React.memo(({todolistId, task}: PropsType) => {
         dispatch(updateTask(task.id, todolistId, {title}));
     },[task.id,todolistId])
 
-
+    const statusLoading = task.entityStatus === 'loading'
     return (
         <div className={task.status === TaskStatuses.Completed ? "task__wrapper is-done" : "task__wrapper"}>
-            <Checkbox color='primary'  onChange={onChangeHandler} checked={task.status === TaskStatuses.Completed}/>
-            <EditableSpan value={task.title} onChange={changeTaskTitle}/>
-            <IconButton onClick={removeTask}><Delete/></IconButton>
+            <Checkbox color='primary'
+                      onChange={onChangeHandler}
+                      checked={task.status === TaskStatuses.Completed}
+                      disabled={statusLoading}/>
+            <EditableSpan value={task.title} onChange={changeTaskTitle} disabled={statusLoading}/>
+            <IconButton onClick={removeTask} disabled={statusLoading}>
+                <Delete/>
+            </IconButton>
         </div>
     )
 })

@@ -4,8 +4,6 @@ import { Story, Meta } from '@storybook/react/types-6-0';
 import {action} from "@storybook/addon-actions";
 import Task, {PropsType} from "../features/Todolists/Todolist/Task/Task";
 import {ReduxStoreProviderDecorator} from "./ReduxProviderStoreDecotaror";
-import {TaskPriorities, TaskStatuses} from "../api/task-api";
-
 
 export default {
   title: 'TodoList/Task',
@@ -28,14 +26,40 @@ const baseArgs = {
 export const TaskIsDoneExample = Template.bind({});
 TaskIsDoneExample.args = {
   ...baseArgs,
-  // task: {id: '1', isDone: true, title: 'JS'},
-  todolistId: 'todolistId1'
+  task: {
+    description: '',
+    title: 'JS',
+    status: 1,
+    priority: 1,
+    startDate: '',
+    deadline: '',
+    id: '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252',
+    todoListId: '1',
+    order: 1,
+    addedDate: '',
+    entityStatus: 'idle'
+  },
+  todolistId: '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252'
 };
 
 export const TaskIsNotDoneExample = Template.bind({});
 TaskIsNotDoneExample.args = {
   ...baseArgs,
-  // task: {id: '1', isDone: false, title: 'JS'},
-  todolistId: 'todolistId1'
+  task: {
+    description: '',
+    title: 'JS',
+    status: 2,
+    priority: 1,
+    startDate: '',
+    deadline: '',
+    id: '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252',
+    todoListId: '1',
+    order: 1,
+    addedDate: '',
+    entityStatus: 'idle'
+  },
+  todolistId: '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252'
 };
+
+
 

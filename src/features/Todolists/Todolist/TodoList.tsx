@@ -6,10 +6,17 @@ import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
 import Task from "./Task/Task";
 import {useDispatch} from "react-redux";
 import {addTaskTC, fetchTasksTC} from "../tasksReducer";
-import {changeFilterAC, deleteTodolistsTC, FilterValuesType, updateTodolistTitleTC} from "../todolistReducer";
+import {
+    changeFilterAC,
+    deleteTodolistsTC,
+    FilterValuesType,
+    TodolistDomainType,
+    updateTodolistTitleTC
+} from "../todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/task-api";
 
 type PropsType = {
+    todolist: TodolistDomainType
     title: string
     tasks: Array<TaskType>
     filter: FilterValuesType
@@ -66,12 +73,16 @@ export const Todolist = React.memo((props: PropsType) =>  {
         />
     })
 
+    const statusLoading = props.todolist.entityStatus === 'loading'
+
     return <div>
         <div className='title__wrapper'>
-            <EditableSpan value={props.title} onChange={changeTodoListTitle}/>
-            <IconButton onClick={() => removeTodolist(props.todolistId)}><Delete/></IconButton>
+            <EditableSpan value={props.title} onChange={changeTodoListTitle} disabled={statusLoading}/>
+            <IconButton onClick={() => removeTodolist(props.todolistId)} disabled={statusLoading}>
+                <Delete/>
+            </IconButton>
         </div>
-        <AddItemForm addItem={addTask}/>
+        <AddItemForm addItem={addTask} disabled={statusLoading}/>
         <div>
             {
                 task
