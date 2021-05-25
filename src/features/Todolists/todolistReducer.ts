@@ -57,7 +57,7 @@ export const fetchTodolistsTC = () =>
 export const addTodolistsTC = (title: string) => async (dispatch: ThunkType) => {
     try {
         dispatch(setAppStatusAC('loading'))
-        await todolistAPI.createTodolist(title)
+        await todolistAPI.createTodolist(title)//let result =  await todolistAPI.createTodolist(title) возвращает
             .then(res => {
                 if (res.data.resultCode === 0) {
                     const action = addTodolistAC(res.data.data.item)
