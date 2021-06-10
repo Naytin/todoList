@@ -4,7 +4,7 @@ import {EditableSpan} from "../../../../Components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
 import { removeTaskTC, updateTask} from "../../tasksReducer";
-import {TaskStatuses, TaskType} from "../../../../api/task-api";
+import {TaskStatuses, TaskType} from "../../../../api/API";
 
 export type PropsType = {
     task: TaskType

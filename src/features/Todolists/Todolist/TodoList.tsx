@@ -13,7 +13,7 @@ import {
     TodolistDomainType,
     updateTodolistTitleTC
 } from "../todolistReducer";
-import {TaskStatuses, TaskType} from "../../../api/task-api";
+import {TaskStatuses, TaskType} from "../../../api/API";
 
 type PropsType = {
     todolist: TodolistDomainType

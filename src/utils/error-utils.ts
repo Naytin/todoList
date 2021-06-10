@@ -1,5 +1,5 @@
-import {ResponseType} from '../api/task-api'
-import {setAppErrorAC, setAppStatusAC, SetErrorActionType, SetStatusActionType} from '../app/app.Reducer'
+import {ResponseType} from '../api/API'
+import {setAppErrorAC, setAppStatusAC, SetErrorActionType, SetStatusActionType} from '../app/appReducer'
 import {Dispatch} from "redux";
 
 

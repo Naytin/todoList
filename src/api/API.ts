@@ -1,7 +1,7 @@
 import axios from 'axios'
-import {RequestStatusType} from "../app/app.Reducer";
+import {RequestStatusType} from "../app/appReducer";
 
-const instance = axios.create({
+export const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
@@ -9,7 +9,7 @@ const instance = axios.create({
     }
 })
 
-// api
+// tasks API
 export const tasksAPI = {
     getTasks(todolistId: string) {
         return  instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`)
@@ -24,8 +24,51 @@ export const tasksAPI = {
         return  instance.put<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
     }
 }
+// todolist API
+export const todolistAPI = {
+    getTodolist() {
+        return  instance.get<Array<TodolistType>>(`todo-lists`)
+    },
+    createTodolist(title: string) {
+        return  instance.post<ResponseType<{item: TodolistType}>>(`todo-lists`, {title})
+    },
+    deleteTodolist(todolistId: string, ) {
+        return  instance.delete<ResponseType>(`todo-lists/${todolistId}`)
+    },
+    updateTodolist(todolistId: string, title: string) {
+        return  instance.put<ResponseType>(`todo-lists/${todolistId}`, {title})
+    }
+}
+
+// auth API
+export const authAPI = {
+    login(data: ParamsLoginType) {
+        return instance.post<ResponseType<{userId: number}>>(`auth/login`, data)
+    },
+    logout() {
+        return instance.delete<ResponseType<{}>>(`auth/login`)
+    },
+    auth() {
+        return instance.get<ResponseType<{id: number, email: string, login: string}>>(`auth/me`)
+    }
+}
+
 
 // types
+export type ParamsLoginType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+
+export type TodolistType= {
+    id: string
+    addedDate: string
+    order: number
+    title: string
+}
+
 type GetTasksResponse = {
     error: string | null
     totalCount: number

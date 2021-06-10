@@ -1,12 +1,12 @@
-import {todolistAPI} from "../../api/todolist-api";
-import {TodolistType} from "../../api/todolist-api"
+import {todolistAPI} from "../../api/API";
+import {TodolistType} from "../../api/API"
 import {
     RequestStatusType,
     setAppErrorAC,
     setAppStatusAC,
     SetErrorActionType,
     SetStatusActionType
-} from "../../app/app.Reducer";
+} from "../../app/appReducer";
 import {Dispatch} from "redux";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 

@@ -1,8 +1,8 @@
-import {tasksAPI, TaskType, UpdateTaskModelType} from "../../api/task-api";
+import {tasksAPI, TaskType, UpdateTaskModelType} from "../../api/API";
 import {AddTodolistType, RemoveTodolistType, SetTodolistsActionType} from "./todolistReducer";
 import {AppRootStateType} from "../../app/store";
 import {Dispatch} from "redux";
-import {RequestStatusType, setAppStatusAC, SetErrorActionType, SetStatusActionType} from "../../app/app.Reducer";
+import {RequestStatusType, setAppStatusAC, SetErrorActionType, SetStatusActionType} from "../../app/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TaskStateType = {}
@@ -163,7 +163,7 @@ type ActionsType =
     | SetTodolistsActionType
     | RemoveTodolistType
 
-type ThunkType = Dispatch<ActionsType | SetStatusActionType | SetErrorActionType>
+export type ThunkType = Dispatch<ActionsType | SetStatusActionType | SetErrorActionType>
 // создаем тип, для универсальной санки с необязательными полями, для подстановки нужного поля в санку
 type UpdateDomainTaskModelType = {
     title?: string

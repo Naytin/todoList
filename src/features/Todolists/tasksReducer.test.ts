@@ -1,6 +1,7 @@
 import {addTaskAC, removeTaskAC, setTasksAC, tasksReducer, TaskStateType, updateTaskAC} from "./tasksReducer";
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from './todolistReducer'
-import {TaskPriorities, TaskStatuses} from "../../api/task-api";
+import {TaskPriorities, TaskStatuses} from "../../api/API";
+import {RequestStatusType} from "../../app/appReducer";
 
 let startState: TaskStateType
 
@@ -11,19 +12,22 @@ beforeEach(() => {
                 id: "1", title: "CSS",
                 status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
                 deadline: '', addedDate: '', order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded' as RequestStatusType,
             },
             {
                 id: "2", title: "JS",
                 status: TaskStatuses.Completed, todoListId: 'todolistId1', description: '', startDate: '',
                 deadline: '', addedDate: '', order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded' as RequestStatusType,
             },
             {
                 id: "3", title: "REACT",
                 status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
                 deadline: '', addedDate: '', order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded' as RequestStatusType,
             },
         ],
         "todolistId2": [
@@ -31,19 +35,22 @@ beforeEach(() => {
                 id: "1", title: "book",
                 status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
                 deadline: '', addedDate: '', order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded' as RequestStatusType,
             },
             {
                 id: "2", title: "book2",
                 status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
                 deadline: '', addedDate: '', order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded' as RequestStatusType,
             },
             {
                 id: "3", title: "book3",
                 status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
                 deadline: '', addedDate: '', order: 0,
-                priority: TaskPriorities.Low
+                priority: TaskPriorities.Low,
+                entityStatus: 'succeeded' as RequestStatusType,
             },
 
         ]
@@ -69,7 +76,8 @@ test('correct task should be added to correct array', () => {
         order: 0,
         priority: 0,
         startDate: '',
-        id: '2'
+        id: '2',
+        entityStatus: 'succeeded' as RequestStatusType,
     });
     const endState = tasksReducer(startState, action)
 
