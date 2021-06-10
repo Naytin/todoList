@@ -10,7 +10,7 @@ export const GetTask = () => {
     useEffect(() => {
         // здесь мы будем делать запрос и ответ закидывать в стейт.
         // который в виде строки будем отображать в div-ке
-        const todolistId = '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252';
+        const todolistId = '867724c0-24e6-4eed-a120-76555eb3f597';
         tasksAPI.getTasks(todolistId)
             .then((res) => {
                 setState(res.data);
@@ -22,7 +22,7 @@ export const GetTask = () => {
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
 
-    const todolistId = '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252';
+    const todolistId = '867724c0-24e6-4eed-a120-76555eb3f597';
     useEffect(() => {
         tasksAPI.createTask(todolistId,'NEW APAPAPAPA')
             .then((res) => {

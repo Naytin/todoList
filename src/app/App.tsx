@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {initializeAppTC, RequestStatusType} from "./appReducer";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
-import {Route, Switch, useHistory} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {logoutTC} from "../features/Login/authReducer";
 
@@ -39,6 +39,7 @@ function App() {
     const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     const classes = useStyles();
     let history = useHistory();
+
     const handleLogout = useCallback(() => {
         dispatch(logoutTC())
     },[])
@@ -48,7 +49,6 @@ function App() {
     },[])
 
     if (!isInitialized) {
-        console.log(isInitialized)
         return <div
             style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
             <CircularProgress/>
@@ -75,11 +75,13 @@ function App() {
             </AppBar>
             {status === 'loading' && <LinearProgress color={"primary"}/>}
             <Container fixed>
+                <BrowserRouter>
                 <Switch>
                     <Route exact path={'/'} render={() => <TodolistsList/>}/>
                     <Route path={'/login'} render={() => <Login/>}/>
                     <Route render={() => <h1>404: PAGE NOT FOUND</h1>}/>
                 </Switch>
+                </BrowserRouter>
             </Container>
         </div>
     );
