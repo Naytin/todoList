@@ -4,7 +4,7 @@ import {Delete} from "@material-ui/icons";
 import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
 import Task from "./Task/Task";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addTaskTC, fetchTasksTC} from "../tasksReducer";
 import {
     changeFilterAC,
@@ -14,6 +14,7 @@ import {
     updateTodolistTitleTC
 } from "../todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/API";
+import {AppRootStateType} from "../../../app/store";
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -24,9 +25,13 @@ type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) =>  {
+    const isLogged = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {
+        if(!isLogged) {
+            return
+        }
         dispatch(fetchTasksTC(props.todolistId))
     },[])//no dependencies. runs only once when the component will render
 

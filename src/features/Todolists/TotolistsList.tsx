@@ -38,7 +38,7 @@ export const TodolistsList: React.FC = () => {
             {todolists.map(t => {
                 let allTodoLists = tasks[t.id];
                 return (
-                    <Grid key={t.id} item wrap='wrap' style={{padding: '20px'}}>
+                    <Grid key={t.id} item style={{padding: '20px'}}>
                         <Paper style={{padding: '10px'}}>
                             <Todolist key={t.id}
                                       todolist={t}
