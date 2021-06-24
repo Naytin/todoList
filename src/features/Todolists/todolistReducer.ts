@@ -2,7 +2,6 @@ import {todolistAPI} from "../../api/API";
 import {TodolistType} from "../../api/API"
 import {
     RequestStatusType,
-    setAppErrorAC,
     setAppStatusAC,
     SetErrorActionType,
     SetStatusActionType
@@ -10,7 +9,24 @@ import {
 import {Dispatch} from "redux";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
-const initialState: TodolistDomainType[] = []
+const initialState: TodolistDomainType[] = [
+    {
+        id: '1',
+        addedDate: '',
+        order:0,
+        title: 'React',
+        filter: 'all',
+        entityStatus: "idle"
+    },
+    {
+        id: '2',
+        addedDate: '',
+        order:0,
+        title: 'React',
+        filter: 'all',
+        entityStatus: "idle"
+    },
+]
 
 export const todolistReducer = (state: TodolistDomainType[] = initialState, action: ActionsType): TodolistDomainType[] => {
     switch (action.type) {

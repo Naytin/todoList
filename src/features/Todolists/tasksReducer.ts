@@ -1,11 +1,59 @@
-import {tasksAPI, TaskType, UpdateTaskModelType} from "../../api/API";
+import {TaskPriorities, tasksAPI, TaskStatuses, TaskType, UpdateTaskModelType} from "../../api/API";
 import {AddTodolistType, RemoveTodolistType, SetTodolistsActionType} from "./todolistReducer";
 import {AppRootStateType} from "../../app/store";
 import {Dispatch} from "redux";
 import {RequestStatusType, setAppStatusAC, SetErrorActionType, SetStatusActionType} from "../../app/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
-const initialState: TaskStateType = {}
+const initialState: TaskStateType = {
+    "1": [
+        {
+            id: "1", title: "CSS",
+            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+            deadline: '', addedDate: '', order: 0,
+            priority: TaskPriorities.Low,
+            entityStatus: 'succeeded' as RequestStatusType,
+        },
+        {
+            id: "2", title: "JS",
+            status: TaskStatuses.Completed, todoListId: 'todolistId1', description: '', startDate: '',
+            deadline: '', addedDate: '', order: 0,
+            priority: TaskPriorities.Low,
+            entityStatus: 'succeeded' as RequestStatusType,
+        },
+        {
+            id: "3", title: "REACT",
+            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+            deadline: '', addedDate: '', order: 0,
+            priority: TaskPriorities.Low,
+            entityStatus: 'succeeded' as RequestStatusType,
+        },
+    ],
+    "2": [
+        {
+            id: "1", title: "book",
+            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+            deadline: '', addedDate: '', order: 0,
+            priority: TaskPriorities.Low,
+            entityStatus: 'succeeded' as RequestStatusType,
+        },
+        {
+            id: "2", title: "book2",
+            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+            deadline: '', addedDate: '', order: 0,
+            priority: TaskPriorities.Low,
+            entityStatus: 'succeeded' as RequestStatusType,
+        },
+        {
+            id: "3", title: "book3",
+            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+            deadline: '', addedDate: '', order: 0,
+            priority: TaskPriorities.Low,
+            entityStatus: 'succeeded' as RequestStatusType,
+        },
+
+    ]
+}
 
 export const tasksReducer = (state: TaskStateType = initialState, action: ActionsType): TaskStateType => {
     switch (action.type) {

@@ -34,11 +34,11 @@ export const TodolistsList: React.FC = () => {
             <div style={{marginRight: '20px'}}>Add new task</div>
             <AddItemForm addItem={addTodoList}/>
         </Grid>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} justify='space-around'>
             {todolists.map(t => {
                 let allTodoLists = tasks[t.id];
                 return (
-                    <Grid key={t.id} item style={{padding: '20px'}}>
+                    <Grid key={t.id} item wrap='wrap' style={{padding: '20px'}}>
                         <Paper style={{padding: '10px'}}>
                             <Todolist key={t.id}
                                       todolist={t}

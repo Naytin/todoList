@@ -50,6 +50,7 @@ export const logoutTC = () => (dispatch: ThunkType) => {
     })
 }
 
+export type SetIsLoggedInType = ReturnType<typeof setIsLoggedIn>
 
 type ThunkType = Dispatch<ActionsType | SetStatusActionType | SetErrorActionType>
-type ActionsType = ReturnType<typeof setIsLoggedIn> | SetErrorActionType | SetStatusActionType
+type ActionsType = SetIsLoggedInType | SetErrorActionType | SetStatusActionType

@@ -16,7 +16,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {initializeAppTC, RequestStatusType} from "./appReducer";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
-import {BrowserRouter, Route, Switch, useHistory} from 'react-router-dom';
+import {HashRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {logoutTC} from "../features/Login/authReducer";
 
@@ -42,18 +42,18 @@ function App() {
 
     const handleLogout = useCallback(() => {
         dispatch(logoutTC())
-    },[])
+    }, [])
 
     useEffect(() => {
         dispatch(initializeAppTC())
-    },[])
+    }, [])
 
-    if (!isInitialized) {
-        return <div
-            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-            <CircularProgress/>
-        </div>
-    }
+    // if (!isInitialized) {
+    //     return <div
+    //         style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+    //         <CircularProgress/>
+    //     </div>
+    // }
 
     return (
         <div className="App">
@@ -75,13 +75,14 @@ function App() {
             </AppBar>
             {status === 'loading' && <LinearProgress color={"primary"}/>}
             <Container fixed>
-                <BrowserRouter>
-                <Switch>
-                    <Route exact path={'/'} render={() => <TodolistsList/>}/>
-                    <Route path={'/login'} render={() => <Login/>}/>
-                    <Route render={() => <h1>404: PAGE NOT FOUND</h1>}/>
-                </Switch>
-                </BrowserRouter>
+                <HashRouter>
+                    <Switch>
+                        <Route exact path={'/'} render={() => <TodolistsList/>}/>
+                        <Route path={'/login'} render={() => <Login/>}/>
+                        <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
+                        <Redirect from={'*'} to={'/404'}/>
+                    </Switch>
+                </HashRouter>
             </Container>
         </div>
     );

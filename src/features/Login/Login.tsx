@@ -44,9 +44,10 @@ export const Login = () => {
     if(isLoggedIn) {
         return <Redirect to={'/'}/>
     }
-    return <Grid container justify="center">
-        <Grid item xs={4}>
-            <form onSubmit={formik.handleSubmit}>
+    return <Grid container
+                 justify="center">
+            <Grid item xs={4} >
+            <form onSubmit={formik.handleSubmit} style={{textAlign: 'center', marginTop: "50px"}}>
                 <FormControl>
                     <FormLabel>
                         <p>To log in get registered
