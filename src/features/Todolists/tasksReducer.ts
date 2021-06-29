@@ -2,7 +2,7 @@ import {TaskPriorities, tasksAPI, TaskStatuses, TaskType, UpdateTaskModelType} f
 import {AddTodolistType, RemoveTodolistType, SetTodolistsActionType} from "./todolistReducer";
 import {AppRootStateType} from "../../app/store";
 import {Dispatch} from "redux";
-import {RequestStatusType, setAppStatusAC, SetErrorActionType, SetStatusActionType} from "../../app/appReducer";
+import {RequestStatusType, setAppStatusAC} from "../../app/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 const initialState: TaskStateType = {
@@ -107,29 +107,29 @@ export const changeTaskEntityStatusAC = (taskId: string, todolistId: string, ent
 
 // thunks
 export const fetchTasksTC = (todolistId: string) =>
-    (dispatch: ThunkType) => {
-        dispatch(setAppStatusAC('loading'))
+    (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC({status: 'loading'}))
         tasksAPI.getTasks(todolistId)
             .then(res => {
                 const tasks = res.data.items
                 const action = setTasksAC(tasks, todolistId)
                 dispatch(action)
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status: 'succeeded'}))
             }).catch(error => {
             handleServerNetworkError(error, dispatch)
         })
     }
 
 export const removeTaskTC = (taskId: string, todolistId: string) =>
-    (dispatch: ThunkType) => {
-        dispatch(setAppStatusAC('loading'))
+    (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC({status: 'loading'}))
         dispatch(changeTaskEntityStatusAC(taskId, todolistId, 'loading'))
         tasksAPI.deleteTask(taskId, todolistId)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     const action = removeTaskAC(taskId, todolistId)
                     dispatch(action)
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
@@ -139,14 +139,14 @@ export const removeTaskTC = (taskId: string, todolistId: string) =>
     }
 
 export const addTaskTC = (title: string, todolistId: string) =>
-    (dispatch: ThunkType) => {
-        dispatch(setAppStatusAC('loading'))
+    (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC({status: 'loading'}))
         tasksAPI.createTask(todolistId, title)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     const action = addTaskAC(res.data.data.item)
                     dispatch(action)
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
@@ -158,7 +158,7 @@ export const addTaskTC = (title: string, todolistId: string) =>
 
 // универсальная санка, которая помимо taskId и todolistId принимает необходимое поле для изменения status|title
 export const updateTask = (taskId: string, todolistId: string, domainModel: UpdateDomainTaskModelType) =>
-    (dispatch: ThunkType, getState: () => AppRootStateType) => {
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
 // так как мы обязаны на сервер отправить все св-ва, которые сервер ожидает, а не только
 // те, которые мы хотим обновить, соответственно нам нужно в этом месте взять таску целиком
 // чтобы у неё отобрать остальные св-ва
@@ -178,14 +178,14 @@ export const updateTask = (taskId: string, todolistId: string, domainModel: Upda
             deadline: task.deadline,
             ...domainModel// перезатираем только то свойство, которое было передано в domainModel
         }
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({status: 'loading'}))
         dispatch(changeTaskEntityStatusAC(taskId, todolistId, 'loading'))
         tasksAPI.updateTask(todolistId, taskId, apiModel)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     const action = updateTaskAC(taskId, domainModel, todolistId)
                     dispatch(action)
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                     dispatch(changeTaskEntityStatusAC(taskId, todolistId, 'succeeded'))
                 } else {
                     handleServerAppError(res.data, dispatch)
@@ -211,7 +211,6 @@ type ActionsType =
     | SetTodolistsActionType
     | RemoveTodolistType
 
-export type ThunkType = Dispatch<ActionsType | SetStatusActionType | SetErrorActionType>
 // создаем тип, для универсальной санки с необязательными полями, для подстановки нужного поля в санку
 type UpdateDomainTaskModelType = {
     title?: string

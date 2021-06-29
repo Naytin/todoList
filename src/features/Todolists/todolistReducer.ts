@@ -3,8 +3,6 @@ import {TodolistType} from "../../api/API"
 import {
     RequestStatusType,
     setAppStatusAC,
-    SetErrorActionType,
-    SetStatusActionType
 } from "../../app/appReducer";
 import {Dispatch} from "redux";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
@@ -56,12 +54,12 @@ export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestSt
 
 // thunks
 export const fetchTodolistsTC = () =>
-    (dispatch: ThunkType) => {
-        dispatch(setAppStatusAC('loading'))
+    (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC({status: 'loading'}))
         todolistAPI.getTodolist()
             .then((res) => {
                 dispatch(setTodolistsAC(res.data))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(setAppStatusAC({status: 'succeeded'}))
             })
             .catch(error => {
                 handleServerNetworkError(error, dispatch)
@@ -70,15 +68,15 @@ export const fetchTodolistsTC = () =>
     }
 
 
-export const addTodolistsTC = (title: string) => async (dispatch: ThunkType) => {
+export const addTodolistsTC = (title: string) => async (dispatch: Dispatch) => {
     try {
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({status: 'loading'}))
         await todolistAPI.createTodolist(title)//let result =  await todolistAPI.createTodolist(title) возвращает
             .then(res => {
                 if (res.data.resultCode === 0) {
                     const action = addTodolistAC(res.data.data.item)
                     dispatch(action)
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                 } else {
                     handleServerAppError(res.data, dispatch)
                 }
@@ -91,15 +89,15 @@ export const addTodolistsTC = (title: string) => async (dispatch: ThunkType) => 
 }
 
 export const deleteTodolistsTC = (todolistId: string) =>
-    (dispatch: ThunkType) => {
-        dispatch(setAppStatusAC('loading'))
+    (dispatch: Dispatch) => {
+        dispatch(setAppStatusAC({status: 'loading'}))
         dispatch(changeTodolistEntityStatusAC(todolistId,'loading'))
         todolistAPI.deleteTodolist(todolistId)
             .then((res) => {
                 if(res.data.resultCode === 0) {
                     const action = removeTodolistAC(todolistId)
                     dispatch(action)
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                 }else {
                     handleServerAppError(res.data, dispatch)
                 }
@@ -109,18 +107,18 @@ export const deleteTodolistsTC = (todolistId: string) =>
     }
 
 export const updateTodolistTitleTC = (todolistId: string, title: string) =>
-    (dispatch: ThunkType) => {
+    (dispatch: Dispatch) => {
 // так как мы обязаны на сервер отправить все св-ва, которые сервер ожидает, а не только
 // те, которые мы хотим обновить, соответственно нам нужно в этом месте взять таску целиком
 // чтобы у неё отобрать остальные св-ва
-        dispatch(setAppStatusAC('loading'))
+        dispatch(setAppStatusAC({status: 'loading'}))
         dispatch(changeTodolistEntityStatusAC(todolistId,'loading'))
         todolistAPI.updateTodolist(todolistId, title)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     const action = changeTitleAC(todolistId, title)
                     dispatch(action)
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(setAppStatusAC({status: 'succeeded'}))
                     dispatch(changeTodolistEntityStatusAC(todolistId,'succeeded'))
                 } else {
                     handleServerAppError(res.data, dispatch)
@@ -131,7 +129,6 @@ export const updateTodolistTitleTC = (todolistId: string, title: string) =>
     }
 
 // types
-type ThunkType = Dispatch<SetStatusActionType | SetErrorActionType | ActionsType>
 
 export type AddTodolistType = ReturnType<typeof addTodolistAC>
 export type RemoveTodolistType = ReturnType<typeof removeTodolistAC>
