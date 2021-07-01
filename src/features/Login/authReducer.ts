@@ -9,7 +9,7 @@ const initialState = {
 }
 
 const slice = createSlice({
-    name: 'AUTH', // name of our reducer
+    name: 'auth', // name of our reducer
     initialState: initialState, // initialState
     reducers: {
         // Transfer to reducer our actions and put state and action to the parameters

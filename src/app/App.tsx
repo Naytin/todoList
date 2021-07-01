@@ -14,7 +14,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import {TodolistsList} from "../features/Todolists/TotolistsList";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {initializeAppTC, RequestStatusType} from "./appReducer";
+import {initializeAppTC} from "./appReducer";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
 import {HashRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
@@ -36,7 +36,7 @@ function App() {
     const dispatch = useDispatch()
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    const status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+    const status = useSelector<AppRootStateType, string>(state => state.app.status)
     const classes = useStyles();
     let history = useHistory();
 
