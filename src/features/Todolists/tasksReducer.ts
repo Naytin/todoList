@@ -104,9 +104,6 @@ const slice = createSlice({
                 state[tl.id] = []
             })
         })
-        // [setTodolistsAC.type]: (state, action: PayloadAction<{}>) => {},
-        // [removeTodolistAC.type]: (state, action: PayloadAction<{todos: Array<TodolistType>}>) => {},
-        // [addTodolistAC.type]: (state, action: PayloadAction<{todos: Array<TodolistType>}>) => {},
     }
 })
 
@@ -136,6 +133,7 @@ export const fetchTasksTC = (todolistId: string) =>
 
 export const removeTaskTC = (taskId: string, todolistId: string) =>
     (dispatch: Dispatch) => {
+
         dispatch(setAppStatusAC({status: 'loading'}))
         dispatch(changeTaskEntityStatusAC({taskId, todolistId, entityStatus: 'loading'}))
         tasksAPI.deleteTask(taskId, todolistId)
@@ -215,15 +213,6 @@ export type TaskStateType = {
     [key: string]: Array<TaskType>
 }
 
-// type ActionsType =
-//     | ReturnType<typeof setTasksAC>
-//     | ReturnType<typeof addTaskAC>
-//     | ReturnType<typeof removeTaskAC>
-//     | ReturnType<typeof updateTaskAC>
-//     | ReturnType<typeof changeTaskEntityStatusAC>
-//     | AddTodolistType
-//     | SetTodolistsActionType
-//     | RemoveTodolistType
 
 // создаем тип, для универсальной санки с необязательными полями, для подстановки нужного поля в санку
 type UpdateDomainTaskModelType = {

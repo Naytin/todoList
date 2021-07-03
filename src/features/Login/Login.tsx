@@ -18,8 +18,8 @@ export const Login = () => {
     const dispatch = useDispatch()
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: 'free@samuraijs.com',
+            password: 'free',
             rememberMe: false
         },
         validate: (values) => {
@@ -46,7 +46,7 @@ export const Login = () => {
     }
     return <Grid container
                  justify="center">
-            <Grid item xs={4} >
+            <Grid item xs={10} >
             <form onSubmit={formik.handleSubmit} style={{textAlign: 'center', marginTop: "50px"}}>
                 <FormControl>
                     <FormLabel>

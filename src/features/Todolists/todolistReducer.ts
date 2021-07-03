@@ -8,23 +8,23 @@ import {Dispatch} from "redux";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-const initialState = [
-    {
-        id: '1',
-        addedDate: '',
-        order:0,
-        title: 'React',
-        filter: 'all',
-        entityStatus: "idle"
-    },
-    {
-        id: '2',
-        addedDate: '',
-        order:0,
-        title: 'React',
-        filter: 'all',
-        entityStatus: "idle"
-    },
+const initialState: Array<TodolistDomainType> = [
+    // {
+    //     id: '1',
+    //     addedDate: '',
+    //     order:0,
+    //     title: 'React',
+    //     filter: 'all' as FilterValuesType,
+    //     entityStatus: "idle" as RequestStatusType,
+    // },
+    // {
+    //     id: '2',
+    //     addedDate: '',
+    //     order:0,
+    //     title: 'React',
+    //     filter: 'all' as FilterValuesType,
+    //     entityStatus: "idle" as RequestStatusType,
+    // },
 ]
 
 const slice = createSlice({
@@ -77,14 +77,13 @@ export const fetchTodolistsTC = () =>
     }
 
 
-export const addTodolistsTC = (title: string) => async (dispatch: Dispatch) => {
+export const addTodolistsTC = (title: string) => (dispatch: Dispatch) => {
     try {
         dispatch(setAppStatusAC({status: 'loading'}))
-        await todolistAPI.createTodolist(title)//let result =  await todolistAPI.createTodolist(title) возвращает
+            todolistAPI.createTodolist(title)//let result =  await todolistAPI.createTodolist(title) возвращает
             .then(res => {
                 if (res.data.resultCode === 0) {
-                    const action = addTodolistAC({todo: res.data.data.item})
-                    dispatch(action)
+                    dispatch(addTodolistAC({todo: res.data.data.item}))
                     dispatch(setAppStatusAC({status: 'succeeded'}))
                 } else {
                     handleServerAppError(res.data, dispatch)
@@ -139,13 +138,8 @@ export const updateTodolistTitleTC = (todolistId: string, title: string) =>
 
 // types
 
-// export type AddTodolistType = ReturnType<typeof addTodolistAC>
-// export type RemoveTodolistType = ReturnType<typeof removeTodolistAC>
-// export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>
-
-
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistDomainType = TodolistType & {
-    filter:  "all" | "active" | "completed";
-    entityStatus: 'idle' | 'loading' | 'succeeded' | 'failed'
+    filter:  FilterValuesType
+    entityStatus: RequestStatusType
 }
