@@ -14,7 +14,7 @@ import {
     updateTodolistTitleTC
 } from "../todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/API";
-import {AppRootStateType} from "../../../app/store";
+import {selectIsLoggedIn} from "../../Auth/selectors";
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -25,7 +25,7 @@ type PropsType = {
 }
 
 export const Todolist = React.memo((props: PropsType) =>  {
-    const isLogged = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLogged = useSelector(selectIsLoggedIn)
     const dispatch = useDispatch()
 
     useEffect(() => {

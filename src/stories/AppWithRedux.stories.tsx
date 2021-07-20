@@ -11,7 +11,6 @@ export default {
   decorators: [ReduxStoreProviderDecorator]
 } as Meta;
 
-
 const Template: Story= () => <App/>;
 
 export const AppExample = Template.bind({});

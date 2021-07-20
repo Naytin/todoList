@@ -13,12 +13,13 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import {TodolistsList} from "../features/Todolists/TotolistsList";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
 import {initializeAppTC} from "./appReducer";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
 import {HashRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
-import {Login} from "../features/Login/Login";
-import {logoutTC} from "../features/Login/authReducer";
+import {Login} from "../features/Auth/Login";
+import {logoutTC} from "../features/Auth/authReducer";
+import {selectIsInitialized, selectStatus} from "./selectors";
+import { selectIsLoggedIn } from '../features/Auth/selectors';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,28 +33,33 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
+
+
 function App() {
-    const dispatch = useDispatch()
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    const status = useSelector<AppRootStateType, string>(state => state.app.status)
+    const isLoggedIn = useSelector(selectIsLoggedIn)
+    const isInitialized = useSelector(selectIsInitialized)
+    const status = useSelector(selectStatus)
+
     const classes = useStyles();
-    let history = useHistory();
+
+    const dispatch = useDispatch()
+    const history = useHistory();
 
     const handleLogout = useCallback(() => {
         dispatch(logoutTC())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         dispatch(initializeAppTC())
-    }, [])
+    }, [dispatch])
 
-    // if (!isInitialized) {
-    //     return <div
-    //         style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
-    //         <CircularProgress/>
-    //     </div>
-    // }
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
 
     return (
         <div className="App">

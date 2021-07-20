@@ -22,18 +22,6 @@ const slice = createSlice({
 export const authReducer = slice.reducer // assign our reducer to variable
 export const {setIsLoggedIn} = slice.actions // get actionCreator from actions
 
-// type InitialStateType = typeof initialState
-
-// export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-//     switch(action.type) {
-//         case 'login/SET_IS_LOGGED_IN':
-//             return {...state, isLoggedIn: action.value}
-//         default:
-//             return state
-//     }
-// }
-//
-// export const setIsLoggedIn = (value: boolean) => ({type: 'login/SET_IS_LOGGED_IN', value} as const)
 
 export const loginTC = (data: ParamsLoginType) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC({status: 'loading'}))
@@ -63,8 +51,3 @@ export const logoutTC = () => (dispatch: Dispatch) => {
         handleServerNetworkError(err, dispatch)
     })
 }
-//
-// export type SetIsLoggedInType = ReturnType<typeof setIsLoggedIn>
-
-// type ThunkType = Dispatch<ActionsType | SetStatusActionType | SetErrorActionType>
-// type ActionsType = SetIsLoggedInType | SetErrorActionType | SetStatusActionType

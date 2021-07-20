@@ -3,8 +3,8 @@ import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField
 import {useFormik} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "./authReducer";
-import {AppRootStateType} from "../../app/store";
 import { Redirect } from 'react-router-dom';
+import {selectIsLoggedIn} from "./selectors";
 
 type FormikErrorType = {
     email?: string
@@ -12,9 +12,8 @@ type FormikErrorType = {
     rememberMe?: boolean
 }
 
-
 export const Login = () => {
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const isLoggedIn = useSelector(selectIsLoggedIn)
     const dispatch = useDispatch()
     const formik = useFormik({
         initialValues: {

@@ -1,7 +1,7 @@
 import {authAPI} from "../api/API";
 import {Dispatch} from "redux";
 import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import { setIsLoggedIn} from "../features/Login/authReducer";
+import { setIsLoggedIn} from "../features/Auth/authReducer";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
@@ -31,19 +31,16 @@ export const {setAppStatusAC,setAppErrorAC,setIsInitialized} = slice.actions
 
 
 export const initializeAppTC = () => (dispatch: Dispatch) => {
-    dispatch(setAppStatusAC({status: 'loading'}))
     authAPI.auth()
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsInitialized({value: true}))
                 dispatch(setIsLoggedIn({value: true}))
-                dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
-
+            dispatch(setIsInitialized({value: true}))
         }).catch(error => {
-        handleServerNetworkError(error, dispatch)
+            handleServerNetworkError(error, dispatch)
     })
 }
 
