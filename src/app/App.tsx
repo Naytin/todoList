@@ -12,14 +12,13 @@ import {
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {TodolistsList} from "../features/Todolists/TotolistsList";
-import {useDispatch, useSelector} from "react-redux";
-import {initializeAppTC} from "./appReducer";
+import {useSelector} from "react-redux";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
 import {HashRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Auth/Login";
-import {logoutTC} from "../features/Auth/authReducer";
 import {selectIsInitialized, selectStatus} from "./selectors";
-import { selectIsLoggedIn } from '../features/Auth/selectors';
+import {selectIsLoggedIn } from '../features/Auth/selectors';
+import {useActions} from "../hooks/useActions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,22 +36,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 function App() {
+    const classes = useStyles();
+
     const isLoggedIn = useSelector(selectIsLoggedIn)
     const isInitialized = useSelector(selectIsInitialized)
     const status = useSelector(selectStatus)
 
-    const classes = useStyles();
-
-    const dispatch = useDispatch()
+    const {logoutTC, initializeAppTC} = useActions()
     const history = useHistory();
 
     const handleLogout = useCallback(() => {
-        dispatch(logoutTC())
-    }, [dispatch])
+      logoutTC()
+    }, [])
 
     useEffect(() => {
-        dispatch(initializeAppTC())
-    }, [dispatch])
+        initializeAppTC()
+    }, [])
 
     if (!isInitialized) {
         return <div

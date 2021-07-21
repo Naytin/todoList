@@ -4,17 +4,14 @@ import {Delete} from "@material-ui/icons";
 import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
 import Task from "./Task/Task";
-import {useDispatch, useSelector} from "react-redux";
-import {addTaskTC, fetchTasksTC} from "../tasksReducer";
+import { useSelector} from "react-redux";
 import {
-    changeFilterAC,
-    deleteTodolistsTC,
     FilterValuesType,
     TodolistDomainType,
-    updateTodolistTitleTC
 } from "../todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/API";
 import {selectIsLoggedIn} from "../../Auth/selectors";
+import {useActions} from "../../../hooks/useActions";
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -26,29 +23,30 @@ type PropsType = {
 
 export const Todolist = React.memo((props: PropsType) =>  {
     const isLoggedIn = useSelector(selectIsLoggedIn)
-    const dispatch = useDispatch()
+
+    const {fetchTasksTC, addTaskTC, updateTodolistTitleTC,deleteTodolistsTC,changeFilterAC} = useActions()
 
     useEffect(() => {
         if(!isLoggedIn) {
             return
         }
-        dispatch(fetchTasksTC(props.todolistId))
+        fetchTasksTC(props.todolistId)
     },[])//no dependencies. runs only once when the component will render
 
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskTC(title.trim(), props.todolistId))
-    },[dispatch]);
-    const changeTodoListTitle = useCallback((newTitle: string) => {
+        addTaskTC(title.trim(), props.todolistId)
+    },[]);
 
-        dispatch(updateTodolistTitleTC(props.todolistId, newTitle))
-    },[dispatch, props.todolistId])
+    const changeTodoListTitle = useCallback((newTitle: string) => {
+        updateTodolistTitleTC(props.todolistId, newTitle)
+    },[props.todolistId])
 
     const changeFilter = useCallback((value: FilterValuesType, taskId: string) => {
-        dispatch(changeFilterAC({filter: value,id: taskId}));
-    },[dispatch])
+        changeFilterAC({filter: value,id: taskId});
+    },[])
 
     const removeTodolist = useCallback((id: string) => {
-        dispatch(deleteTodolistsTC(id))
+        deleteTodolistsTC(id)
     },[])
 
     const onAllClickHandler = useCallback(() => {

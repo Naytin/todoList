@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {addTodolistsTC, fetchTodolistsTC} from "./todolistReducer";
+import {useSelector} from "react-redux";
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../Components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/TodoList";
@@ -8,29 +7,28 @@ import {Redirect} from "react-router-dom";
 import {selectIsLoggedIn} from "../Auth/selectors";
 import {selectorTodolists} from "./selectors";
 import {selectorTasks} from "./Todolist/Task/selector";
-
-
-
+import {useActions} from "../../hooks/useActions";
 
 
 export const TodolistsList: React.FC = () => {
     const isLoggedIn = useSelector(selectIsLoggedIn)
     const todolists = useSelector(selectorTodolists)
     const tasks = useSelector(selectorTasks);
-    const dispatch = useDispatch()
+
+    const {fetchTodolistsTC, addTodolistsTC} = useActions()
 
     useEffect(() => {
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             return
         }
-        dispatch(fetchTodolistsTC())
+        fetchTodolistsTC()
     }, [])
 
     const addTodoList = useCallback((title: string) => {
-        dispatch(addTodolistsTC(title))
+        addTodolistsTC(title)
     }, [])
 
-    if(!isLoggedIn) {
+    if (!isLoggedIn) {
         return <Redirect to={'/login'}/>
     }
     return <>
