@@ -42,7 +42,7 @@ export const Todolist = React.memo((props: PropsType) =>  {
     },[props.todolistId])
 
     const changeFilter = useCallback((value: FilterValuesType, taskId: string) => {
-        changeFilterAC({filter: value,id: taskId});
+            changeFilterAC({filter: value,id: taskId});
     },[])
 
     const removeTodolist = useCallback((id: string) => {

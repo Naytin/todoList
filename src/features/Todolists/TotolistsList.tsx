@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from "react";
+import React, {useEffect} from "react";
 import {useSelector} from "react-redux";
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../Components/AddItemForm/AddItemForm";
@@ -24,10 +24,6 @@ export const TodolistsList: React.FC = () => {
         fetchTodolistsTC()
     }, [])
 
-    const addTodoList = useCallback((title: string) => {
-        addTodolistsTC(title)
-    }, [])
-
     if (!isLoggedIn) {
         return <Redirect to={'/login'}/>
     }
@@ -35,7 +31,7 @@ export const TodolistsList: React.FC = () => {
         <Grid container style={{padding: '20px'}} justify="center" alignItems="center"
               direction="column">
             <div style={{marginRight: '20px'}}>Add new task</div>
-            <AddItemForm addItem={addTodoList}/>
+            <AddItemForm addItem={addTodolistsTC}/>
         </Grid>
         <Grid container spacing={3} justify='space-around'>
             {todolists.map(t => {
