@@ -4,6 +4,7 @@ import {EditableSpan} from "../../../../Components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../../api/API";
 import {useActions} from "../../../../hooks/useActions";
+import style from './Task.module.scss'
 
 export type PropsType = {
     task: TaskType
@@ -18,8 +19,7 @@ const Task = React.memo(({todolistId, task}: PropsType) => {
     },[task.id,todolistId])
 
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-        let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-        updateTask(task.id,  todolistId, {status});
+        updateTask(task.id,  todolistId, {status: e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New});
     },[task.id,todolistId])
 
     const changeTaskTitle = useCallback((title: string) => {
@@ -28,12 +28,14 @@ const Task = React.memo(({todolistId, task}: PropsType) => {
 
     const statusLoading = task.entityStatus === 'loading'
     return (
-        <div className={task.status === TaskStatuses.Completed ? "task__wrapper is-done" : "task__wrapper"}>
-            <Checkbox color='primary'
-                      onChange={onChangeHandler}
-                      checked={task.status === TaskStatuses.Completed}
-                      disabled={statusLoading}/>
-            <EditableSpan value={task.title} onChange={changeTaskTitle} disabled={statusLoading}/>
+        <div className={task.status === TaskStatuses.Completed ? style.task__wrapper + ' ' + style.is_done: style.task__wrapper}>
+            <div className={style.content}>
+                <Checkbox color='primary'
+                          onChange={onChangeHandler}
+                          checked={task.status === TaskStatuses.Completed}
+                          disabled={statusLoading}/>
+                <EditableSpan value={task.title} onChange={changeTaskTitle} disabled={statusLoading}/>
+            </div>
             <IconButton onClick={removeTask} disabled={statusLoading}>
                 <Delete/>
             </IconButton>

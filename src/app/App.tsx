@@ -79,7 +79,7 @@ function App() {
                 </Toolbar>
             </AppBar>
             {status === 'loading' && <LinearProgress color={"primary"}/>}
-            <Container fixed>
+            <Container maxWidth={false} >
                 <HashRouter>
                     <Switch>
                         <Route exact path={'/'} render={() => <TodolistsList/>}/>

@@ -8,6 +8,7 @@ import {selectIsLoggedIn} from "../Auth/selectors";
 import {selectorTodolists} from "./selectors";
 import {selectorTasks} from "./Todolist/Task/selector";
 import {useActions} from "../../hooks/useActions";
+import style from './TotolistsList.module.scss'
 
 
 export const TodolistsList: React.FC = () => {
@@ -28,12 +29,14 @@ export const TodolistsList: React.FC = () => {
         return <Redirect to={'/login'}/>
     }
     return <>
-        <Grid container style={{padding: '20px'}} justify="center" alignItems="center"
+        <Grid container  style={{padding: '20px'}}
+              justify="center"
+              alignItems="center"
               direction="column">
             <div style={{marginRight: '20px'}}>Add new task</div>
             <AddItemForm addItem={addTodolistsTC}/>
         </Grid>
-        <Grid container spacing={3} justify='space-around'>
+        <Grid container wrap={'nowrap'} style={{overflowY: 'auto', padding: '0  20px 300px'}}>
             {todolists.map(t => {
                 let allTodoLists = tasks[t.id];
                 return (

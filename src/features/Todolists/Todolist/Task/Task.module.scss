@@ -1,0 +1,22 @@
+.is_done {
+  opacity: 0.5;
+}
+
+input {
+  padding: 5px!important;
+}
+
+.task__wrapper {
+  display: flex;
+  justify-content: space-between;
+  .content {
+    display: flex;
+    align-items: center;
+  }
+
+  span {
+    display: block;
+    word-break: break-all;
+  }
+}
+
