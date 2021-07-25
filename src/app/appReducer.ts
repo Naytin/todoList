@@ -35,13 +35,13 @@ export const initializeAppTC = () => (dispatch: Dispatch) => {
     authAPI.auth()
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(setIsInitialized({value: true}))
+
                 dispatch(setIsLoggedIn({value: true}))
                 dispatch(setAppStatusAC({status: 'succeeded'}))
             } else {
                 handleServerAppError(res.data, dispatch)
             }
-
+            dispatch(setIsInitialized({value: true}))
         }).catch(error => {
         handleServerNetworkError(error, dispatch)
     })

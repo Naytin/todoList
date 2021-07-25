@@ -11,53 +11,53 @@ import {handleServerAppError, handleServerNetworkError} from "../../utils/error-
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState: TaskStateType = {
-    "1": [
-        {
-            id: "1", title: "CSS",
-            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
-            deadline: '', addedDate: '', order: 0,
-            priority: TaskPriorities.Low,
-            entityStatus: 'succeeded' as RequestStatusType,
-        },
-        {
-            id: "2", title: "JS",
-            status: TaskStatuses.Completed, todoListId: 'todolistId1', description: '', startDate: '',
-            deadline: '', addedDate: '', order: 0,
-            priority: TaskPriorities.Low,
-            entityStatus: 'succeeded' as RequestStatusType,
-        },
-        {
-            id: "3", title: "REACT",
-            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
-            deadline: '', addedDate: '', order: 0,
-            priority: TaskPriorities.Low,
-            entityStatus: 'succeeded' as RequestStatusType,
-        },
-    ],
-    "2": [
-        {
-            id: "1", title: "book",
-            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
-            deadline: '', addedDate: '', order: 0,
-            priority: TaskPriorities.Low,
-            entityStatus: 'succeeded' as RequestStatusType,
-        },
-        {
-            id: "2", title: "book2",
-            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
-            deadline: '', addedDate: '', order: 0,
-            priority: TaskPriorities.Low,
-            entityStatus: 'succeeded' as RequestStatusType,
-        },
-        {
-            id: "3", title: "book3",
-            status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
-            deadline: '', addedDate: '', order: 0,
-            priority: TaskPriorities.Low,
-            entityStatus: 'succeeded' as RequestStatusType,
-        },
-
-    ]
+    // "1": [
+    //     {
+    //         id: "1", title: "CSS",
+    //         status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+    //         deadline: '', addedDate: '', order: 0,
+    //         priority: TaskPriorities.Low,
+    //         entityStatus: 'succeeded' as RequestStatusType,
+    //     },
+    //     {
+    //         id: "2", title: "JS",
+    //         status: TaskStatuses.Completed, todoListId: 'todolistId1', description: '', startDate: '',
+    //         deadline: '', addedDate: '', order: 0,
+    //         priority: TaskPriorities.Low,
+    //         entityStatus: 'succeeded' as RequestStatusType,
+    //     },
+    //     {
+    //         id: "3", title: "REACT",
+    //         status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+    //         deadline: '', addedDate: '', order: 0,
+    //         priority: TaskPriorities.Low,
+    //         entityStatus: 'succeeded' as RequestStatusType,
+    //     },
+    // ],
+    // "2": [
+    //     {
+    //         id: "1", title: "book",
+    //         status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+    //         deadline: '', addedDate: '', order: 0,
+    //         priority: TaskPriorities.Low,
+    //         entityStatus: 'succeeded' as RequestStatusType,
+    //     },
+    //     {
+    //         id: "2", title: "book2",
+    //         status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+    //         deadline: '', addedDate: '', order: 0,
+    //         priority: TaskPriorities.Low,
+    //         entityStatus: 'succeeded' as RequestStatusType,
+    //     },
+    //     {
+    //         id: "3", title: "book3",
+    //         status: TaskStatuses.New, todoListId: 'todolistId1', description: '', startDate: '',
+    //         deadline: '', addedDate: '', order: 0,
+    //         priority: TaskPriorities.Low,
+    //         entityStatus: 'succeeded' as RequestStatusType,
+    //     },
+    //
+    // ]
 }
 
 const slice = createSlice({

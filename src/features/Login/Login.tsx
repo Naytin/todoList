@@ -18,8 +18,8 @@ export const Login = () => {
     const dispatch = useDispatch()
     const formik = useFormik({
         initialValues: {
-            email: 'free@samuraijs.com',
-            password: 'free',
+            email: 'nikitinasv12@gmail.com',
+            password: '123456',
             rememberMe: false
         },
         validate: (values) => {
@@ -55,9 +55,9 @@ export const Login = () => {
                                target={'_blank'}>here
                             </a>
                         </p>
-                        <p>or use common test account credentials:</p>
-                        <p>Email: free@samuraijs.com</p>
-                        <p>Password: free</p>
+                        <p>or use test account credentials:</p>
+                        <p>Email: nikitinasv12@gmail.com</p>
+                        <p>Password: 123456</p>
                     </FormLabel>
                     <FormGroup>
                         <TextField

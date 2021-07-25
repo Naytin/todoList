@@ -6,9 +6,10 @@ export type PropsType = {
     value: string
     onChange: (newValue: string) => void
     disabled?: boolean
+    fontSize?: string
 }
 
-export const EditableSpan = React.memo(({value, onChange, disabled = false}: PropsType) => {
+export const EditableSpan = React.memo(({value, onChange, disabled = false, fontSize}: PropsType) => {
     const [editMode, setEditMode] = React.useState(false)
     const [title, setTitle] = useState(value)
 
@@ -36,6 +37,6 @@ export const EditableSpan = React.memo(({value, onChange, disabled = false}: Pro
         editMode ?
             <TextField variant='outlined' value={title} onChange={onChangeStatusHandler} onKeyPress={onKeyPressHandler} autoFocus onBlur={activateViewMode}/>
             :
-            <span onDoubleClick={activateEditMode}>{title}</span>
+            <span style={{fontSize: fontSize}} onDoubleClick={activateEditMode}>{title}</span>
     )
 })

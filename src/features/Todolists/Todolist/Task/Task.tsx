@@ -5,6 +5,7 @@ import {Delete} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
 import { removeTaskTC, updateTask} from "../../tasksReducer";
 import {TaskStatuses, TaskType} from "../../../../api/API";
+import style from './Task.module.scss'
 
 export type PropsType = {
     task: TaskType
@@ -27,12 +28,14 @@ const Task = React.memo(({todolistId, task}: PropsType) => {
 
     const statusLoading = task.entityStatus === 'loading'
     return (
-        <div className={task.status === TaskStatuses.Completed ? "task__wrapper is-done" : "task__wrapper"}>
-            <Checkbox color='primary'
-                      onChange={onChangeHandler}
-                      checked={task.status === TaskStatuses.Completed}
-                      disabled={statusLoading}/>
-            <EditableSpan value={task.title} onChange={changeTaskTitle} disabled={statusLoading}/>
+        <div className={task.status === TaskStatuses.Completed ? style.task__wrapper + ' ' + style.is_done: style.task__wrapper}>
+            <div className={style.content}>
+                <Checkbox color='primary'
+                          onChange={onChangeHandler}
+                          checked={task.status === TaskStatuses.Completed}
+                          disabled={statusLoading}/>
+                <EditableSpan value={task.title} onChange={changeTaskTitle} disabled={statusLoading}/>
+            </div>
             <IconButton onClick={removeTask} disabled={statusLoading}>
                 <Delete/>
             </IconButton>

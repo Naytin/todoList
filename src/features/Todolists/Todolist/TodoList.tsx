@@ -15,6 +15,7 @@ import {
 } from "../todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/API";
 import {AppRootStateType} from "../../../app/store";
+import style from './TodoList.module.scss'
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -80,9 +81,9 @@ export const Todolist = React.memo((props: PropsType) =>  {
 
     const statusLoading = props.todolist.entityStatus === 'loading'
 
-    return <div>
-        <div className='title__wrapper'>
-            <EditableSpan value={props.title} onChange={changeTodoListTitle} disabled={statusLoading}/>
+    return <div className={style.todo}>
+        <div className={style.title__wrapper}>
+            <EditableSpan fontSize={'20px'}  value={props.title} onChange={changeTodoListTitle} disabled={statusLoading}/>
             <IconButton onClick={() => removeTodolist(props.todolistId)} disabled={statusLoading}>
                 <Delete/>
             </IconButton>
@@ -93,7 +94,7 @@ export const Todolist = React.memo((props: PropsType) =>  {
                 task
             }
         </div>
-        <div>
+        <div className={style.btn__wrapper}>
             <Button variant='outlined' color={props.filter === 'all' ? "secondary" : "primary"} size='small'
                     onClick={onAllClickHandler}>All
             </Button>
