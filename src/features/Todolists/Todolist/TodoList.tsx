@@ -8,8 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addTaskTC, fetchTasksTC} from "../tasksReducer";
 import {
     changeFilterAC,
-    deleteTodolistsTC,
-    FilterValuesType,
+    FilterValuesType, removeTodolistTC,
     TodolistDomainType,
     updateTodolistTitleTC
 } from "../todolistReducer";
@@ -37,11 +36,10 @@ export const Todolist = React.memo((props: PropsType) =>  {
     },[])//no dependencies. runs only once when the component will render
 
     const addTask = useCallback((title: string) => {
-        dispatch(addTaskTC(title.trim(), props.todolistId))
+        dispatch(addTaskTC({title: title.trim(), todolistId: props.todolistId}))
     },[dispatch]);
-    const changeTodoListTitle = useCallback((newTitle: string) => {
-
-        dispatch(updateTodolistTitleTC(props.todolistId, newTitle))
+    const changeTodoListTitle = useCallback((title: string) => {
+        dispatch(updateTodolistTitleTC({todolistId: props.todolistId, title}))
     },[dispatch, props.todolistId])
 
     const changeFilter = useCallback((value: FilterValuesType, taskId: string) => {
@@ -49,7 +47,7 @@ export const Todolist = React.memo((props: PropsType) =>  {
     },[dispatch])
 
     const removeTodolist = useCallback((id: string) => {
-        dispatch(deleteTodolistsTC(id))
+        dispatch(removeTodolistTC(id))
     },[])
 
     const onAllClickHandler = useCallback(() => {
@@ -94,7 +92,7 @@ export const Todolist = React.memo((props: PropsType) =>  {
                 task
             }
         </div>
-        <div className={style.btn__wrapper}>
+        {task.length ? <div className={style.btn__wrapper}>
             <Button variant='outlined' color={props.filter === 'all' ? "secondary" : "primary"} size='small'
                     onClick={onAllClickHandler}>All
             </Button>
@@ -104,7 +102,8 @@ export const Todolist = React.memo((props: PropsType) =>  {
             <Button variant='outlined' color={props.filter === 'completed' ? "secondary" : "primary"} size='small'
                     onClick={onCompletedClickHandler}>Completed
             </Button>
-        </div>
+        </div> : <span>No tasks - create your first task</span>}
+
     </div>
 })
 

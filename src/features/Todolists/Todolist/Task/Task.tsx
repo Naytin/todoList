@@ -16,14 +16,16 @@ const Task = React.memo(({todolistId, task}: PropsType) => {
     const dispatch = useDispatch()
 
     const removeTask = useCallback(() => {
-        dispatch(removeTaskTC(task.id, todolistId))
+        dispatch(removeTaskTC({taskId: task.id, todolistId}))
     },[task.id,todolistId])
+
     const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let status = e.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New
-        dispatch(updateTask(task.id,  todolistId, {status}));
+        dispatch(updateTask({taskId: task.id, todolistId, domainModel: {status}}));
     },[task.id,todolistId])
+
     const changeTaskTitle = useCallback((title: string) => {
-        dispatch(updateTask(task.id, todolistId, {title}));
+        dispatch(updateTask({taskId: task.id, todolistId, domainModel: {title}}));
     },[task.id,todolistId])
 
     const statusLoading = task.entityStatus === 'loading'

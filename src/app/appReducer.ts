@@ -9,19 +9,18 @@ const initialState = {
     isInitialized: false
 }
 
-export const initializeAppTC = createAsyncThunk('app/initializeApp', async (arg, thunkAPI) => {
-    thunkAPI.dispatch(setAppStatusAC({status: 'loading'}))
+export const initializeAppTC = createAsyncThunk('app/initializeApp', async (arg, {dispatch}) => {
+    dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.auth()
         if (res.data.resultCode === 0) {
-            thunkAPI.dispatch(setIsLoggedIn({value: true}))
-            thunkAPI.dispatch(setAppStatusAC({status: 'succeeded'}))
+            dispatch(setIsLoggedIn({isLoggedIn: true}))
+            dispatch(setAppStatusAC({status: 'succeeded'}))
         } else {
-            handleServerAppError(res.data, thunkAPI.dispatch)
+            handleServerAppError(res.data, dispatch)
         }
-        return {isInitialized: true}
     } catch (err) {
-        handleServerNetworkError(err, thunkAPI.dispatch)
+        handleServerNetworkError(err, dispatch)
     }
 })
 
@@ -36,15 +35,10 @@ const slice = createSlice({
         setAppErrorAC(state, action: PayloadAction<{ error: string | null }>) {
             state.error = action.payload.error
         },
-        // setIsInitialized(state, action: PayloadAction<{value: boolean}>) {
-        //     state.isInitialized = action.payload.value
-        // }
     },
     extraReducers: builder => {
         builder.addCase(initializeAppTC.fulfilled, (state, action) => {
-            if (action.payload) {
-                state.isInitialized = action.payload.isInitialized
-            }
+            state.isInitialized = true
         })
     }
 })
