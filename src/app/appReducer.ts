@@ -9,7 +9,8 @@ const initialState = {
     isInitialized: false
 }
 
-export const initializeAppTC = createAsyncThunk('app/initializeApp', async (arg, {dispatch}) => {
+export const initializeAppTC = createAsyncThunk('app/initializeApp',
+    async (arg, {dispatch}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.auth()

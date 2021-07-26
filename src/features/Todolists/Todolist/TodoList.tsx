@@ -26,6 +26,7 @@ type PropsType = {
 
 export const Todolist = React.memo((props: PropsType) =>  {
     const isLogged = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+    const status = useSelector<AppRootStateType, string>(state => state.app.status)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -74,6 +75,7 @@ export const Todolist = React.memo((props: PropsType) =>  {
         return <Task key={t.id}
                      task={t}
                      todolistId={props.todolistId}
+                     status={status}
         />
     })
 
@@ -89,10 +91,10 @@ export const Todolist = React.memo((props: PropsType) =>  {
         <AddItemForm addItem={addTask} disabled={statusLoading}/>
         <div>
             {
-                task
+                task.length ? task : <span>No tasks - create your first task</span>
             }
         </div>
-        {task.length ? <div className={style.btn__wrapper}>
+        <div className={style.btn__wrapper}>
             <Button variant='outlined' color={props.filter === 'all' ? "secondary" : "primary"} size='small'
                     onClick={onAllClickHandler}>All
             </Button>
@@ -102,8 +104,7 @@ export const Todolist = React.memo((props: PropsType) =>  {
             <Button variant='outlined' color={props.filter === 'completed' ? "secondary" : "primary"} size='small'
                     onClick={onCompletedClickHandler}>Completed
             </Button>
-        </div> : <span>No tasks - create your first task</span>}
-
+        </div>
     </div>
 })
 

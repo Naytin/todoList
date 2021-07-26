@@ -1,10 +1,16 @@
 import {setAppStatusAC} from '../../app/appReducer'
-import {authAPI, ParamsLoginType} from "../../api/API";
+import {authAPI, FieldError, ParamsLoginType} from "../../api/API";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {AxiosError} from "axios";
 
 
-export const loginTC = createAsyncThunk('auth/login', async (data: ParamsLoginType,{dispatch}) => {
+export const loginTC = createAsyncThunk<
+    {isLoggedIn: boolean},ParamsLoginType, {
+    rejectValue: {errors: Array<string>, fieldErrors?: Array<FieldError>}
+}
+    >('auth/login',
+    async (data,{dispatch, rejectWithValue}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.login(data)
@@ -13,12 +19,15 @@ export const loginTC = createAsyncThunk('auth/login', async (data: ParamsLoginTy
             return {isLoggedIn: true}
         } else {
             handleServerAppError(res.data, dispatch)
+            return rejectWithValue({errors: res.data.messages, fieldErrors: res.data.fieldErrors})
         }
     } catch (err) {
-        handleServerNetworkError(err, dispatch)
+        const error: AxiosError = err
+        handleServerNetworkError(error, dispatch)
+        return rejectWithValue({errors: [error.message], fieldErrors: undefined})
     }
 })
-export const logoutTC = createAsyncThunk('auth/logout', async (arg, {dispatch}) => {
+export const logoutTC = createAsyncThunk('auth/logout', async (arg, {dispatch, rejectWithValue}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.logout()
@@ -27,6 +36,7 @@ export const logoutTC = createAsyncThunk('auth/logout', async (arg, {dispatch}) 
            return {isLoggedIn: false}
         } else {
             handleServerAppError(res.data, dispatch)
+
         }
     } catch (err) {
         handleServerNetworkError(err, dispatch)

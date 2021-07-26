@@ -5,9 +5,9 @@ import {
     removeTodolistTC,
 } from "./todolistReducer";
 import {AppRootStateType} from "../../app/store";
-import {RequestStatusType, setAppStatusAC} from "../../app/appReducer";
+import { setAppStatusAC} from "../../app/appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 
 export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks',
@@ -155,14 +155,7 @@ const slice = createSlice({
     name: 'tasks',
     initialState: initialState,
     reducers: {
-        changeTaskEntityStatusAC: (state, action: PayloadAction<ChangeTaskEntityType>) => {
-            const tasks = state[action.payload.todolistId]
-            const index = tasks.findIndex(t => t.id === action.payload.taskId)
-            if (index > -1) {
-                tasks[index].entityStatus = action.payload.entityStatus
-            }
-        }
-    },//
+    },
     extraReducers: (builder) => {
         builder.addCase(addTodolistsTC.fulfilled, (state, action) => {
             state[action.payload.todo.id] = []
@@ -198,10 +191,7 @@ const slice = createSlice({
     }
 })
 
-type ChangeTaskEntityType = { taskId: string, todolistId: string, entityStatus: RequestStatusType }
-
 export const tasksReducer = slice.reducer
-export const {changeTaskEntityStatusAC} = slice.actions
 
 // types
 export type TaskStateType = {
@@ -216,5 +206,4 @@ type UpdateDomainTaskModelType = {
     priority?: number
     startDate?: string
     deadline?: string
-    entityStatus?: RequestStatusType
 }

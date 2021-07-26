@@ -63,12 +63,10 @@ export const removeTodolistTC = createAsyncThunk('todolists/removeTodolist',
 export const updateTodolistTitleTC = createAsyncThunk('todolists/updateTodolist',
     async (param:{todolistId: string, title: string}, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatusAC({status: 'loading'}))
-        // dispatch(changeTodolistEntityStatusAC({id: todolistId, entityStatus: 'loading'}))
         try {
             const res = await todolistAPI.updateTodolist(param.todolistId, param.title)
             if (res.data.resultCode === 0) {
                 dispatch(setAppStatusAC({status: 'succeeded'}))
-                // dispatch(changeTodolistEntityStatusAC({id: todolistId, entityStatus: 'succeeded'}))
                 return {todolistId: param.todolistId,  title: param.title}
             } else {
                 handleServerAppError(res.data, dispatch)
@@ -108,10 +106,6 @@ const slice = createSlice({
             const index = state.findIndex(tl => tl.id === action.payload.id)
             state[index].filter = action.payload.filter
         },
-        // changeTitleAC: (state, action: PayloadAction<{ id: string, title: string }>) => {
-        //     const index = state.findIndex(tl => tl.id === action.payload.id)
-        //     state[index].title = action.payload.title
-        // },
         changeTodolistEntityStatusAC: (state, action: PayloadAction<{ id: string, entityStatus: RequestStatusType }>) => {
             const index = state.findIndex(tl => tl.id === action.payload.id)
             state[index].entityStatus = action.payload.entityStatus

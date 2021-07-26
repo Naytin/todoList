@@ -10,9 +10,10 @@ import style from './Task.module.scss'
 export type PropsType = {
     task: TaskType
     todolistId: string
+    status:  string
 }
 
-const Task = React.memo(({todolistId, task}: PropsType) => {
+const Task = React.memo(({todolistId, task, status}: PropsType) => {
     const dispatch = useDispatch()
 
     const removeTask = useCallback(() => {
@@ -28,7 +29,7 @@ const Task = React.memo(({todolistId, task}: PropsType) => {
         dispatch(updateTask({taskId: task.id, todolistId, domainModel: {title}}));
     },[task.id,todolistId])
 
-    const statusLoading = task.entityStatus === 'loading'
+    const statusLoading = status === 'loading'
     return (
         <div className={task.status === TaskStatuses.Completed ? style.task__wrapper + ' ' + style.is_done: style.task__wrapper}>
             <div className={style.content}>

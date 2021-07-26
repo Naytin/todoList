@@ -37,7 +37,6 @@ TaskIsDoneExample.args = {
     todoListId: '1',
     order: 1,
     addedDate: '',
-    entityStatus: 'idle'
   },
   todolistId: '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252'
 };
@@ -56,7 +55,6 @@ TaskIsNotDoneExample.args = {
     todoListId: '1',
     order: 1,
     addedDate: '',
-    entityStatus: 'idle'
   },
   todolistId: '01e4e3f5-0973-4933-aaf5-b7e6bdfe8252'
 };

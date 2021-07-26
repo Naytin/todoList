@@ -5,6 +5,7 @@ import thunk from 'redux-thunk'
 import {appReducer} from "./appReducer";
 import {authReducer} from "../features/Login/authReducer";
 import {configureStore} from "@reduxjs/toolkit";
+import {useDispatch} from "react-redux";
 
 
 // объединяя reducer-ы с помощью combineReducers,
@@ -30,3 +31,6 @@ export const store = configureStore({
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент store.getSstate
 // @ts-ignore
 window.store = store;
+
+type AppDispatchType = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatchType>()
