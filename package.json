@@ -38,8 +38,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9009",
-    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 9009 -s publick --no-dll",
+    "build-storybook": "build-storybook -s publick",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
