@@ -1,16 +1,16 @@
 import {TaskPriorities, tasksAPI, TaskStatuses, TaskType, TodolistType, UpdateTaskModelType} from "../../api/API";
 import {
-    addTodolistsTC,
-    fetchTodolistsTC,
-    removeTodolistTC,
+    addTodolists,
+    fetchTodolists,
+    removeTodolist,
 } from "./todolistReducer";
-import {AppRootStateType} from "../../app/store";
-import { setAppStatusAC} from "../../app/appReducer";
+import {AppRootStateType} from "../store";
+import { setAppStatusAC} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 
 
-export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks',
+export const fetchTasks = createAsyncThunk('tasks/fetchTasks',
     async (todolistId: string, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatusAC({status: 'loading'}))
         try {
@@ -24,7 +24,7 @@ export const fetchTasksTC = createAsyncThunk('tasks/fetchTasks',
         }
     })
 
-export const addTaskTC = createAsyncThunk('tasks/addTask',
+export const addTask = createAsyncThunk('tasks/addTask',
     async (param: { title: string, todolistId: string }, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatusAC({status: 'loading'}))
         try {
@@ -43,7 +43,7 @@ export const addTaskTC = createAsyncThunk('tasks/addTask',
 
     })
 
-export const removeTaskTC = createAsyncThunk('tasks/removeTask',
+export const removeTask = createAsyncThunk('tasks/removeTask',
     async (param: { taskId: string, todolistId: string }, {dispatch, rejectWithValue}) => {
         dispatch(setAppStatusAC({status: 'loading'}))
         // thunkAPI.dispatch(changeTaskEntityStatusAC({param.taskId, param.todolistId, entityStatus: 'loading'}))
@@ -61,6 +61,7 @@ export const removeTaskTC = createAsyncThunk('tasks/removeTask',
             return rejectWithValue(null)
         }
     })
+
 
 //универсальная санка, которая помимо taskId и todolistId принимает необходимое поле для изменения status|title
 export const updateTask = createAsyncThunk('tasks/updateTasks',
@@ -99,6 +100,13 @@ export const updateTask = createAsyncThunk('tasks/updateTasks',
             return rejectWithValue(null)
         }
 })
+
+export const asyncActions = {
+    fetchTasks,
+    addTask,
+    removeTask,
+    updateTask
+}
 
 
 const initialState: TaskStateType = {
@@ -157,24 +165,24 @@ const slice = createSlice({
     reducers: {
     },
     extraReducers: (builder) => {
-        builder.addCase(addTodolistsTC.fulfilled, (state, action) => {
+        builder.addCase(addTodolists.fulfilled, (state, action) => {
             state[action.payload.todo.id] = []
         });
-        builder.addCase(removeTodolistTC.fulfilled, (state, action) => {
+        builder.addCase(removeTodolist.fulfilled, (state, action) => {
             delete state[action.payload.todolistId]
         });
-        builder.addCase(fetchTodolistsTC.fulfilled, (state, action) => {
+        builder.addCase(fetchTodolists.fulfilled, (state, action) => {
             action.payload.todos.forEach((tl) => {
                 state[tl.id] = []
             })
         });
-        builder.addCase(fetchTasksTC.fulfilled, (state, action) => {
+        builder.addCase(fetchTasks.fulfilled, (state, action) => {
             state[action.payload.todolistId] = action.payload.tasks
         });
-        builder.addCase(addTaskTC.fulfilled, (state, action) => {
+        builder.addCase(addTask.fulfilled, (state, action) => {
             state[action.payload.task.todoListId].unshift(action.payload.task)
         });
-        builder.addCase(removeTaskTC.fulfilled, (state, action) => {
+        builder.addCase(removeTask.fulfilled, (state, action) => {
             const tasks = state[action.payload.todolistId]
             const index = tasks.findIndex(t => t.id === action.payload.taskId)
             if (index > -1) {

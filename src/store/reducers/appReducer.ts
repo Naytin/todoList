@@ -1,6 +1,6 @@
-import {authAPI} from "../api/API";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-import {setIsLoggedIn} from "../features/Login/authReducer";
+import {authAPI} from "../../api/API";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {setIsLoggedIn} from "./authReducer";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
@@ -9,7 +9,7 @@ const initialState = {
     isInitialized: false
 }
 
-export const initializeAppTC = createAsyncThunk('app/initializeApp',
+export const initializeApp = createAsyncThunk('app/initializeApp',
     async (arg, {dispatch}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     try {
@@ -25,6 +25,9 @@ export const initializeAppTC = createAsyncThunk('app/initializeApp',
     }
 })
 
+export const asyncActions = {
+    initializeApp
+}
 
 const slice = createSlice({
     name: 'app',
@@ -38,7 +41,7 @@ const slice = createSlice({
         },
     },
     extraReducers: builder => {
-        builder.addCase(initializeAppTC.fulfilled, (state, action) => {
+        builder.addCase(initializeApp.fulfilled, (state, action) => {
             state.isInitialized = true
         })
     }

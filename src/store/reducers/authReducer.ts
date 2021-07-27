@@ -1,11 +1,11 @@
-import {setAppStatusAC} from '../../app/appReducer'
+import {setAppStatusAC} from './appReducer'
 import {authAPI, FieldError, ParamsLoginType} from "../../api/API";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AxiosError} from "axios";
 
 
-export const loginTC = createAsyncThunk<
+export const login = createAsyncThunk<
     {isLoggedIn: boolean},ParamsLoginType, {
     rejectValue: {errors: Array<string>, fieldsErrors?: Array<FieldError>}
 }
@@ -27,7 +27,7 @@ export const loginTC = createAsyncThunk<
         return rejectWithValue({errors: [error.message], fieldsErrors: undefined})
     }
 })
-export const logoutTC = createAsyncThunk('auth/logout', async (arg, {dispatch, rejectWithValue}) => {
+export const logout = createAsyncThunk('auth/logout', async (arg, {dispatch, rejectWithValue}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.logout()
@@ -41,8 +41,12 @@ export const logoutTC = createAsyncThunk('auth/logout', async (arg, {dispatch, r
     } catch (err) {
         handleServerNetworkError(err, dispatch)
     }
-
 })
+
+export const asyncActions = {
+    login,
+    logout
+}
 
 
 const initialState = {
@@ -60,12 +64,12 @@ const slice = createSlice({
         }
     },
     extraReducers: builder => {
-        builder.addCase(loginTC.fulfilled, (state, action) => {
+        builder.addCase(login.fulfilled, (state, action) => {
             if (action.payload) {
                 state.isLoggedIn = action.payload.isLoggedIn
             }
         });
-        builder.addCase(logoutTC.fulfilled, (state, action) => {
+        builder.addCase(logout.fulfilled, (state, action) => {
             if (action.payload) {
                 state.isLoggedIn = action.payload.isLoggedIn
             }

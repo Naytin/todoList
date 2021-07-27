@@ -2,7 +2,8 @@ import React, {useCallback, useEffect} from 'react';
 import './App.scss';
 import {
     AppBar,
-    Button, CircularProgress,
+    Button,
+    CircularProgress,
     Container,
     IconButton,
     LinearProgress,
@@ -12,13 +13,12 @@ import {
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {TodolistsList} from "../features/Todolists/TotolistsList";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./store";
-import {initializeAppTC} from "./appReducer";
+import {useDispatch} from "react-redux";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
 import {HashRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
-import {logoutTC} from "../features/Login/authReducer";
+import {useAppSelector} from "../hooks/useAppSelector";
+import {useActions} from "../hooks/useActions";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,19 +33,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-    const dispatch = useDispatch()
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const isInitialized = useSelector<AppRootStateType, boolean>(state => state.app.isInitialized)
-    const status = useSelector<AppRootStateType, string>(state => state.app.status)
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
+    const isInitialized = useAppSelector(state => state.app.isInitialized)
+    const status = useAppSelector(state => state.app.status)
+    const {logout, initializeApp} = useActions()
     const classes = useStyles();
     let history = useHistory();
 
     const handleLogout = useCallback(() => {
-        dispatch(logoutTC())
+       logout()
     }, [])
 
     useEffect(() => {
-        dispatch(initializeAppTC())
+        initializeApp()
     }, [])
 
     if (!isInitialized) {

@@ -1,5 +1,5 @@
 import {ResponseType} from '../api/API'
-import {setAppErrorAC, setAppStatusAC} from '../app/appReducer'
+import {setAppErrorAC, setAppStatusAC} from '../store/reducers/appReducer'
 import {Dispatch} from "redux";
 
 
