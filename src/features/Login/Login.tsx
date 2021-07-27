@@ -1,12 +1,12 @@
 import React from 'react'
 import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
-import { useFormik} from 'formik';
+import {FormikHelpers, useFormik} from 'formik';
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "./authReducer";
-import {AppRootStateType} from "../../app/store";
-import { Redirect } from 'react-router-dom';
+import {AppRootStateType, useAppDispatch} from "../../app/store";
+import {Redirect} from 'react-router-dom';
 
-type FormikErrorType = {
+type FormikValueType = {
     email: string
     password: string
     rememberMe: boolean
@@ -15,7 +15,7 @@ type FormikErrorType = {
 
 export const Login = () => {
     const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const formik = useFormik({
         initialValues: {
             email: 'nikitinasv12@gmail.com',
@@ -23,7 +23,7 @@ export const Login = () => {
             rememberMe: false
         },
         validate: (values) => {
-            const errors: FormikErrorType = {} as FormikErrorType;
+            const errors: FormikValueType = {} as FormikValueType;
             if (!values.email) {
                 errors.email = 'Required';
             } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
@@ -36,24 +36,31 @@ export const Login = () => {
             }
             return errors;
         },
-        onSubmit: async (values) => {
-             dispatch(loginTC(values));
-             formik.resetForm()
+        onSubmit: async (values: FormikValueType, formikHelpers: FormikHelpers<FormikValueType>) => {
+            //@ts-ignore
+            let action = await dispatch(loginTC(values));
+            if (loginTC.rejected.match(action)) {
+                if (action.payload?.fieldsErrors?.length) {
+                    const error = action.payload?.fieldsErrors[0]
+                    formikHelpers.setFieldError(error.field, error.error)
+                }
+
+            }
         },
     });
-    if(isLoggedIn) {
+    if (isLoggedIn) {
         return <Redirect to={'/'}/>
     }
     return <Grid container
                  justify="center">
-            <Grid item xs={10} >
+        <Grid item xs={10}>
             <form onSubmit={formik.handleSubmit} style={{textAlign: 'center', marginTop: "50px"}}>
                 <FormControl>
                     <FormLabel>
                         <p>To log in get registered
                             <a href={'https://social-network.samuraijs.com/'}
                                target={'_blank'}
-                                rel='noreferrer'>here
+                               rel='noreferrer'>here
                             </a>
                         </p>
                         <p>or use test account credentials:</p>

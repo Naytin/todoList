@@ -7,7 +7,7 @@ import {AxiosError} from "axios";
 
 export const loginTC = createAsyncThunk<
     {isLoggedIn: boolean},ParamsLoginType, {
-    rejectValue: {errors: Array<string>, fieldErrors?: Array<FieldError>}
+    rejectValue: {errors: Array<string>, fieldsErrors?: Array<FieldError>}
 }
     >('auth/login',
     async (data,{dispatch, rejectWithValue}) => {
@@ -19,12 +19,12 @@ export const loginTC = createAsyncThunk<
             return {isLoggedIn: true}
         } else {
             handleServerAppError(res.data, dispatch)
-            return rejectWithValue({errors: res.data.messages, fieldErrors: res.data.fieldErrors})
+            return rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
         }
     } catch (err) {
         const error: AxiosError = err
         handleServerNetworkError(error, dispatch)
-        return rejectWithValue({errors: [error.message], fieldErrors: undefined})
+        return rejectWithValue({errors: [error.message], fieldsErrors: undefined})
     }
 })
 export const logoutTC = createAsyncThunk('auth/logout', async (arg, {dispatch, rejectWithValue}) => {

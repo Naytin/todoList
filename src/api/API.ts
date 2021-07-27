@@ -82,7 +82,7 @@ export type FieldError = {
 export type ResponseType<T = {}> = {
     resultCode: number
     messages: Array<string>
-    fieldErrors?: Array<FieldError>
+    fieldsErrors?: Array<FieldError>
     data: T
 }
 export enum TaskStatuses {
