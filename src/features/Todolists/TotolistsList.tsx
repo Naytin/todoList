@@ -20,7 +20,7 @@ export const TodolistsList: React.FC = () => {
         fetchTodolists()
     }, [])
 
-    const addTodoList = useCallback((title: string) => {
+    const addTodoList = useCallback(async (title: string) => {
         addTodolists(title)
     }, [])
 

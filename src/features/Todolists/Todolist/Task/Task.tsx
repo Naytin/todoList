@@ -12,7 +12,7 @@ export type PropsType = {
     status:  string
 }
 
-const Task = React.memo(({todolistId, task, status}: PropsType) => {
+const Task = React.memo(({todolistId, task, status,}: PropsType) => {
     const {removeTask, updateTask} = useActions()
 
     const removeTaskHandler = useCallback(() => {
@@ -29,8 +29,10 @@ const Task = React.memo(({todolistId, task, status}: PropsType) => {
     },[task.id,todolistId])
 
     const statusLoading = status === 'loading'
+
     return (
-        <div className={task.status === TaskStatuses.Completed ? style.task__wrapper + ' ' + style.is_done: style.task__wrapper}>
+        <div className={task.status === TaskStatuses.Completed ?
+            style.task__wrapper + ' ' + style.is_done: style.task__wrapper}>
             <div className={style.content}>
                 <Checkbox color='primary'
                           onChange={onChangeHandler}

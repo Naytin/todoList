@@ -13,9 +13,8 @@ import {
 } from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
 import {TodolistsList} from "../features/Todolists/TotolistsList";
-import {useDispatch} from "react-redux";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
-import {HashRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
+import {Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {useAppSelector} from "../hooks/useAppSelector";
 import {useActions} from "../hooks/useActions";
@@ -38,7 +37,7 @@ function App() {
     const status = useAppSelector(state => state.app.status)
     const {logout, initializeApp} = useActions()
     const classes = useStyles();
-    let history = useHistory();
+    const history = useHistory()
 
     const handleLogout = useCallback(() => {
        logout()
@@ -54,7 +53,6 @@ function App() {
             <CircularProgress/>
         </div>
     }
-
     return (
         <div className="App">
             <ErrorSnackBar/>
@@ -68,21 +66,21 @@ function App() {
                     </Typography>
                     {
                         !isLoggedIn ?
-                            <Button color="inherit" onClick={() => history.push('/login')}>Login</Button> :
-                            <Button color="inherit" onClick={handleLogout}>Log out</Button>
+                            <Button disabled={history.location.pathname === '/login'}
+                                    variant='outlined' color="secondary"
+                                    onClick={() => history.push('/login')}>Login</Button> :
+                            <Button variant='outlined' color="secondary" onClick={handleLogout}>Log out</Button>
                     }
                 </Toolbar>
             </AppBar>
             {status === 'loading' && <LinearProgress color={"primary"}/>}
             <Container fixed>
-                <HashRouter>
                     <Switch>
                         <Route exact path={'/'} render={() => <TodolistsList/>}/>
                         <Route path={'/login'} render={() => <Login/>}/>
                         <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
                         <Redirect from={'*'} to={'/404'}/>
                     </Switch>
-                </HashRouter>
             </Container>
         </div>
     );

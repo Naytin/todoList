@@ -15,10 +15,15 @@ export default {
   },
 } as Meta;
 
-const Template: Story<PropsType> = (args) => <AddItemForm {...args} />;
+const asyncCallback = async (...params: any[]) => {
+  action('Button inside form clicked')(...params)
+}
 
-export const AddItemFormExample = Template.bind({});
-AddItemFormExample.args = {
-  addItem: action('Button inside form clicked')
-};
+export const Template: Story<PropsType> = (args) => <AddItemForm addItem={asyncCallback} />;
+
+// export const AddItemFormExample = Template.bind({});
+//
+// AddItemFormExample.args = {
+//   addItem: action('Button inside form clicked')
+// };
 

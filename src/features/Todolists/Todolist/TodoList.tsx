@@ -5,11 +5,7 @@ import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
 import Task from "./Task/Task";
 import {useDispatch} from "react-redux";
-import {
-    changeFilterAC,
-    FilterValuesType,
-    TodolistDomainType,
-} from "../../../store/reducers/todolistReducer";
+import {changeFilterAC, FilterValuesType, TodolistDomainType,} from "../../../store/reducers/todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/API";
 import style from './TodoList.module.scss'
 import {useAppSelector} from "../../../hooks/useAppSelector";
@@ -23,44 +19,45 @@ type PropsType = {
     todolistId: string
 }
 
-export const Todolist = React.memo((props: PropsType) =>  {
+export const Todolist = React.memo((props: PropsType) => {
+
     const isLogged = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
-    const {fetchTasks,addTask,updateTodolistTitle, removeTodolist} = useActions()
+    const {fetchTasks, addTask, updateTodolistTitle, removeTodolist} = useActions()
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(!isLogged) {
+        if (!isLogged) {
             return
         }
         fetchTasks(props.todolistId)
-    },[])//no dependencies. runs only once when the component will render
+    }, [])//no dependencies. runs only once when the component will render
 
-    const addTaskHandler = useCallback((title: string) => {
+    const addTaskHandler = useCallback(async (title: string) => {
         addTask({title: title.trim(), todolistId: props.todolistId})
-    },[]);
+    }, []);
 
     const changeTodoListTitle = useCallback((title: string) => {
         updateTodolistTitle({todolistId: props.todolistId, title})
-    },[ props.todolistId])
+    }, [props.todolistId])
 
     const changeFilter = useCallback((value: FilterValuesType, taskId: string) => {
-        dispatch(changeFilterAC({filter: value,id: taskId}));
-    },[dispatch])
+        dispatch(changeFilterAC({filter: value, id: taskId}));
+    }, [dispatch])
 
     const removeTodolistHandler = useCallback((id: string) => {
         removeTodolist(id)
-    },[])
+    }, [])
 
     const onAllClickHandler = useCallback(() => {
         changeFilter("all", props.todolistId)
-    },[]);
+    }, []);
     const onActiveClickHandler = useCallback(() => {
         changeFilter("active", props.todolistId)
-    },[]);
+    }, []);
     const onCompletedClickHandler = useCallback(() => {
         changeFilter("completed", props.todolistId)
-    },[])
+    }, [])
 
 
     let allTodoLists = props.tasks;
@@ -72,7 +69,7 @@ export const Todolist = React.memo((props: PropsType) =>  {
         tasksForTodolist = allTodoLists.filter(t => t.status === TaskStatuses.Completed);
     }
 
-    const task =  tasksForTodolist.map(t => {
+    const task = tasksForTodolist.map(t => {
         return <Task key={t.id}
                      task={t}
                      todolistId={props.todolistId}
@@ -84,7 +81,8 @@ export const Todolist = React.memo((props: PropsType) =>  {
 
     return <div className={style.todo}>
         <div className={style.title__wrapper}>
-            <EditableSpan fontSize={'20px'}  value={props.title} onChange={changeTodoListTitle} disabled={statusLoading}/>
+            <EditableSpan fontSize={'20px'} value={props.title} onChange={changeTodoListTitle}
+                          disabled={statusLoading}/>
             <IconButton onClick={() => removeTodolistHandler(props.todolistId)} disabled={statusLoading}>
                 <Delete/>
             </IconButton>

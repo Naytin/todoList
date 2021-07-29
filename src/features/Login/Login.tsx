@@ -1,7 +1,6 @@
 import React from 'react'
-import {Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, TextField, Button, Grid} from '@material-ui/core'
+import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
 import {FormikHelpers, useFormik} from 'formik';
-import {useAppDispatch} from "../../store/store";
 import {Redirect} from 'react-router-dom';
 import {useAppSelector} from "../../hooks/useAppSelector";
 import {useActions} from "../../hooks/useActions";

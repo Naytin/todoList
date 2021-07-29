@@ -9,7 +9,7 @@ const initialState = {
     isInitialized: false
 }
 
-export const initializeApp = createAsyncThunk('app/initializeApp',
+const initializeApp = createAsyncThunk('app/initializeApp',
     async (arg, {dispatch}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     try {
