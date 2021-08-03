@@ -3,7 +3,8 @@ import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, G
 import {FormikHelpers, useFormik} from 'formik';
 import {Redirect} from 'react-router-dom';
 import {useAppSelector} from "../../hooks/useAppSelector";
-import {useActions} from "../../hooks/useActions";
+import {authAsyncActions} from "../../store/actionCreators";
+import {useAppDispatch} from "../../store/store";
 
 type FormikValueType = {
     email: string
@@ -14,7 +15,8 @@ type FormikValueType = {
 
 export const Login = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
-    const {login} = useActions()
+    const dispatch = useAppDispatch()
+    const {login} = authAsyncActions
 
     const formik = useFormik({
         initialValues: {
@@ -37,15 +39,13 @@ export const Login = () => {
             return errors;
         },
         onSubmit: async (values: FormikValueType, formikHelpers: FormikHelpers<FormikValueType>) => {
-
-            let action = await login(values);
-            //@ts-ignore
+            let action = await dispatch(login(values));
+            // @ts-ignore
             if (login.rejected.match(action)) {
                 if (action.payload?.fieldsErrors?.length) {
                     const error = action.payload?.fieldsErrors[0]
                     formikHelpers.setFieldError(error.field, error.error)
                 }
-
             }
         },
     });

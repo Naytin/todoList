@@ -5,13 +5,18 @@ import {Todolist} from "./Todolist/TodoList";
 import {Redirect} from "react-router-dom";
 import {useAppSelector} from "../../hooks/useAppSelector";
 import {useActions} from "../../hooks/useActions";
+import {todolistAsyncActions} from "../../store/actionCreators";
+import {useAppDispatch} from "../../store/store";
 
 
 export const TodolistsList: React.FC = () => {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const todolists = useAppSelector(state => state.todolists)
     const tasks = useAppSelector(state => state.tasks);
-    const {fetchTodolists, addTodolists} = useActions()
+    const {fetchTodolists} = useActions(todolistAsyncActions)
+    const {addTodolists} = todolistAsyncActions
+
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if(!isLoggedIn) {
@@ -21,7 +26,17 @@ export const TodolistsList: React.FC = () => {
     }, [])
 
     const addTodoList = useCallback(async (title: string) => {
-        addTodolists(title)
+        const action = await dispatch(addTodolists(title))
+
+        //@ts-ignore
+        if (addTodolists.rejected.match(action)) {
+            if (action.payload?.fieldsErrors?.length) {
+                const error = action.payload?.fieldsErrors[0]
+                throw new Error(error.error)
+            }else {
+                throw new Error('Some error occurred')
+            }
+        }
     }, [])
 
     if(!isLoggedIn) {

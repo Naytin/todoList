@@ -6,6 +6,8 @@ import {
 } from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {ThunkError} from "../store";
+import {AxiosError} from "axios";
 
 // thunks
 export const fetchTodolists = createAsyncThunk('todolists/fetchTodolists',
@@ -23,21 +25,26 @@ export const fetchTodolists = createAsyncThunk('todolists/fetchTodolists',
         }
     })
 
-export const addTodolists = createAsyncThunk('todolists/addTodolist',
-    async (title: string, {dispatch, rejectWithValue}) => {
+export const addTodolists = createAsyncThunk<
+    TodolistType,
+    string,
+    ThunkError
+    >('todolists/addTodolist',
+    async (title, {dispatch, rejectWithValue}) => {
         try {
             dispatch(setAppStatusAC({status: 'loading'}))
             const res = await todolistAPI.createTodolist(title)
             if (res.data.resultCode === 0) {
                 dispatch(setAppStatusAC({status: 'succeeded'}))
-                return {todo: res.data.data.item}
+                return res.data.data.item
             } else {
                 handleServerAppError(res.data, dispatch)
-                return rejectWithValue(null)
+                return rejectWithValue({errors: res.data.messages, fieldsErrors: res.data.fieldsErrors})
             }
         } catch (err) {
+            const error: AxiosError = err
             handleServerNetworkError(err, dispatch)
-            return rejectWithValue(null)
+            return rejectWithValue({errors: [error.message], fieldsErrors: undefined})
         }
     })
 
@@ -123,7 +130,7 @@ const slice = createSlice({
             return action.payload.todos.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}))
         });
         builder.addCase(addTodolists.fulfilled, (state, action) => {
-            state.push({...action.payload.todo, filter: 'all', entityStatus: 'idle'})
+            state.push({...action.payload, filter: 'all', entityStatus: 'idle'})
         });
         builder.addCase(removeTodolist.fulfilled, (state, action) => {
             const index = state.findIndex(tl => tl.id === action.payload.todolistId)

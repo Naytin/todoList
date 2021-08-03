@@ -17,7 +17,7 @@ export const AddItemForm = React.memo(({addItem, disabled = false}: PropsType) =
                 await addItem(title.trim());
                 setTitle("");
             }catch (e) {
-                setError(e);
+                setError(e.message);
             }
         } else {
             setError("Title is required");

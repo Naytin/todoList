@@ -18,6 +18,7 @@ import {Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
 import {useAppSelector} from "../hooks/useAppSelector";
 import {useActions} from "../hooks/useActions";
+import {appAsyncActions, authAsyncActions} from "../store/actionCreators";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,7 +36,9 @@ function App() {
     const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn)
     const isInitialized = useAppSelector(state => state.app.isInitialized)
     const status = useAppSelector(state => state.app.status)
-    const {logout, initializeApp} = useActions()
+    const {initializeApp} = useActions(appAsyncActions)
+    const {logout} = useActions(authAsyncActions)
+
     const classes = useStyles();
     const history = useHistory()
 

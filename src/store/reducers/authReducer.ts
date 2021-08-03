@@ -1,14 +1,14 @@
 import {setAppStatusAC} from './appReducer'
-import {authAPI, FieldError, ParamsLoginType} from "../../api/API";
+import {authAPI, ParamsLoginType} from "../../api/API";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AxiosError} from "axios";
+import {ThunkError} from "../store";
 
 
 export const login = createAsyncThunk<
-    {isLoggedIn: boolean},ParamsLoginType, {
-    rejectValue: {errors: Array<string>, fieldsErrors?: Array<FieldError>}
-}
+    {isLoggedIn: boolean},ParamsLoginType,
+    ThunkError
     >('auth/login',
     async (data,{dispatch, rejectWithValue}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
@@ -27,7 +27,7 @@ export const login = createAsyncThunk<
         return rejectWithValue({errors: [error.message], fieldsErrors: undefined})
     }
 })
-export const logout = createAsyncThunk('auth/logout', async (arg, {dispatch, rejectWithValue}) => {
+const logout = createAsyncThunk('auth/logout', async (arg, {dispatch, rejectWithValue}) => {
     dispatch(setAppStatusAC({status: 'loading'}))
     try {
         const res = await authAPI.logout()

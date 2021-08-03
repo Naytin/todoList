@@ -5,6 +5,7 @@ import {Delete} from "@material-ui/icons";
 import {TaskStatuses, TaskType} from "../../../../api/API";
 import style from './Task.module.scss'
 import {useActions} from "../../../../hooks/useActions";
+import {taskAsyncActions} from "../../../../store/actionCreators";
 
 export type PropsType = {
     task: TaskType
@@ -13,7 +14,7 @@ export type PropsType = {
 }
 
 const Task = React.memo(({todolistId, task, status,}: PropsType) => {
-    const {removeTask, updateTask} = useActions()
+    const {removeTask, updateTask} = useActions(taskAsyncActions)
 
     const removeTaskHandler = useCallback(() => {
         removeTask({taskId: task.id, todolistId})

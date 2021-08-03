@@ -1,10 +1,15 @@
-import {bindActionCreators} from "redux";
+import {ActionCreatorsMapObject, bindActionCreators} from "redux";
 import {useAppDispatch} from "../store/store";
-import ActionCreators from '../store/actionCreators'
+import {useMemo} from "react";
 
 // создаем hook, который связывает все actions creators с диспатчем
 // нам больше не понядобиться использование диспатча в комоненте, просто будем вызывать функцию
-export const useActions = () => {
+
+
+export const useActions = <T extends ActionCreatorsMapObject>(actions: T) => {
     const dispatch = useAppDispatch()
-    return bindActionCreators(ActionCreators,dispatch)
+
+    return useMemo(() => {
+        return bindActionCreators(actions,dispatch)
+    },[])
 }

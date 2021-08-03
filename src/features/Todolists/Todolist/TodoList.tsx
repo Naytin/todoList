@@ -4,12 +4,13 @@ import {Delete} from "@material-ui/icons";
 import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
 import Task from "./Task/Task";
-import {useDispatch} from "react-redux";
 import {changeFilterAC, FilterValuesType, TodolistDomainType,} from "../../../store/reducers/todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/API";
 import style from './TodoList.module.scss'
 import {useAppSelector} from "../../../hooks/useAppSelector";
 import {useActions} from "../../../hooks/useActions";
+import {taskAsyncActions, todolistAsyncActions} from "../../../store/actionCreators";
+import {useAppDispatch} from "../../../store/store";
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -23,8 +24,11 @@ export const Todolist = React.memo((props: PropsType) => {
 
     const isLogged = useAppSelector(state => state.auth.isLoggedIn)
     const status = useAppSelector(state => state.app.status)
-    const {fetchTasks, addTask, updateTodolistTitle, removeTodolist} = useActions()
-    const dispatch = useDispatch()
+    const {updateTodolistTitle, removeTodolist} = useActions(todolistAsyncActions)
+    const {fetchTasks} = useActions(taskAsyncActions)
+    const {addTask} = taskAsyncActions
+
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (!isLogged) {
@@ -34,7 +38,16 @@ export const Todolist = React.memo((props: PropsType) => {
     }, [])//no dependencies. runs only once when the component will render
 
     const addTaskHandler = useCallback(async (title: string) => {
-        addTask({title: title.trim(), todolistId: props.todolistId})
+        let action = await dispatch(addTask({title: title.trim(), todolistId: props.todolistId}))
+        //@ts-ignore
+        if (addTask.rejected.match(action)) {
+            if (action.payload?.fieldsErrors?.length) {
+                const error = action.payload?.fieldsErrors[0]
+                throw new Error(error.error)
+            }else {
+                throw new Error('Some error occurred')
+            }
+        }
     }, []);
 
     const changeTodoListTitle = useCallback((title: string) => {
