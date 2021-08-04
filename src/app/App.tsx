@@ -16,8 +16,8 @@ import {TodolistsList} from "../features/Todolists/TotolistsList";
 import ErrorSnackBar from "../Components/ErrorSnackBar/ErrorSnackBar";
 import {Redirect, Route, Switch, useHistory} from 'react-router-dom';
 import {Login} from "../features/Login/Login";
-import {useAppSelector} from "../hooks/useAppSelector";
-import {useActions} from "../hooks/useActions";
+import {useAppSelector} from "../utils/hooks/useAppSelector";
+import {useActions} from "../utils/hooks/useActions";
 import {appAsyncActions, authAsyncActions} from "../store/actionCreators";
 
 const useStyles = makeStyles((theme) => ({

@@ -5,12 +5,11 @@ import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
 import Task from "./Task/Task";
 import {changeFilterAC, FilterValuesType, TodolistDomainType,} from "../../../store/reducers/todolistReducer";
-import {TaskStatuses, TaskType} from "../../../api/API";
+import {TaskStatuses, TaskType} from "../../../api/types";
 import style from './TodoList.module.scss'
-import {useAppSelector} from "../../../hooks/useAppSelector";
-import {useActions} from "../../../hooks/useActions";
+import {useAppSelector} from "../../../utils/hooks/useAppSelector";
+import {useActions, useAppDispatch} from "../../../utils/hooks/useActions";
 import {taskAsyncActions, todolistAsyncActions} from "../../../store/actionCreators";
-import {useAppDispatch} from "../../../store/store";
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -39,7 +38,7 @@ export const Todolist = React.memo((props: PropsType) => {
 
     const addTaskHandler = useCallback(async (title: string) => {
         let action = await dispatch(addTask({title: title.trim(), todolistId: props.todolistId}))
-        //@ts-ignore
+
         if (addTask.rejected.match(action)) {
             if (action.payload?.fieldsErrors?.length) {
                 const error = action.payload?.fieldsErrors[0]

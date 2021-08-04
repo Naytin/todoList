@@ -49,7 +49,7 @@ test('new todolist should be added', () => {
         title: 'new todo',
         filter: 'all'
     }
-    const action = addTodolists.fulfilled({todo: newTodo}, '', newTodo.title)
+    const action = addTodolists.fulfilled( newTodo, '', newTodo.title)
     const endState = todolistReducer(startState, action)
 
     expect(endState.length).toBe(3)

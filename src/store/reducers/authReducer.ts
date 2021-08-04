@@ -1,9 +1,10 @@
-import {setAppStatusAC} from './appReducer'
-import {authAPI, ParamsLoginType} from "../../api/API";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AxiosError} from "axios";
-import {ThunkError} from "../store";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {setAppStatus} from '../actionCreators/appActionCreators'
+import {authAPI} from "../../api/API";
+import {ParamsLoginType} from "../../api/types";
+import {ThunkError} from "../../utils/types";
 
 
 export const login = createAsyncThunk<
@@ -11,11 +12,11 @@ export const login = createAsyncThunk<
     ThunkError
     >('auth/login',
     async (data,{dispatch, rejectWithValue}) => {
-    dispatch(setAppStatusAC({status: 'loading'}))
+    dispatch(setAppStatus({status: 'loading'}))
     try {
         const res = await authAPI.login(data)
         if (res.data.resultCode === 0) {
-            dispatch(setAppStatusAC({status: 'succeeded'}))
+            dispatch(setAppStatus({status: 'succeeded'}))
             return {isLoggedIn: true}
         } else {
             handleServerAppError(res.data, dispatch)
@@ -28,11 +29,11 @@ export const login = createAsyncThunk<
     }
 })
 const logout = createAsyncThunk('auth/logout', async (arg, {dispatch, rejectWithValue}) => {
-    dispatch(setAppStatusAC({status: 'loading'}))
+    dispatch(setAppStatus({status: 'loading'}))
     try {
         const res = await authAPI.logout()
         if (res.data.resultCode === 0) {
-            dispatch(setAppStatusAC({status: 'succeeded'}))
+            dispatch(setAppStatus({status: 'succeeded'}))
            return {isLoggedIn: false}
         } else {
             handleServerAppError(res.data, dispatch)
@@ -76,5 +77,6 @@ const slice = createSlice({
         })
     }
 })
+
 export const authReducer = slice.reducer // assign our reducer to variable
 export const {setIsLoggedIn} = slice.actions // get actionCreator from actions

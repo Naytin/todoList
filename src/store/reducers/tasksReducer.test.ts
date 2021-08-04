@@ -1,6 +1,10 @@
-import {addTask, fetchTasks, removeTask, tasksReducer, TaskStateType, updateTask} from "./tasksReducer";
-import {TaskPriorities, TaskStatuses} from "../../api/API";
+import {TaskStateType} from "./tasksReducer";
+import {tasksReducer} from "./";
+import {taskAsyncActions} from "../actionCreators/";
+import {TaskPriorities, TaskStatuses} from "../../api/types";
 import {addTodolists, fetchTodolists, removeTodolist} from "./todolistReducer";
+
+const {addTask, updateTask, removeTask, fetchTasks} = taskAsyncActions
 
 let startState: TaskStateType
 
@@ -73,7 +77,7 @@ test('correct task should be added to correct array', () => {
         id: '2',
     };
 
-    const action = addTask.fulfilled({task}, 'requestId', {title: task.title, todolistId: task.todoListId})
+    const action = addTask.fulfilled(task, 'requestId', {title: task.title, todolistId: task.todoListId})
     const endState = tasksReducer(startState, action)
 
     expect(endState["todolistId1"].length).toBe(3);
@@ -111,7 +115,7 @@ test('new array should be added when new todolist is added', () => {
         order:0,
         title: 'new todolist'
     };
-    const action = addTodolists.fulfilled({todo: todolist}, 'requestId', '')
+    const action = addTodolists.fulfilled(todolist, 'requestId', '')
 
     const endState = tasksReducer(startState, action)
     const keys = Object.keys(endState);

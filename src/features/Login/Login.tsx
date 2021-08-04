@@ -2,9 +2,9 @@ import React from 'react'
 import {Button, Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, TextField} from '@material-ui/core'
 import {FormikHelpers, useFormik} from 'formik';
 import {Redirect} from 'react-router-dom';
-import {useAppSelector} from "../../hooks/useAppSelector";
+import {useAppSelector} from "../../utils/hooks/useAppSelector";
 import {authAsyncActions} from "../../store/actionCreators";
-import {useAppDispatch} from "../../store/store";
+import {useAppDispatch} from "../../utils/hooks/useActions";
 
 type FormikValueType = {
     email: string

@@ -2,9 +2,9 @@ import React, {ChangeEvent, useCallback} from 'react'
 import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../../../Components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
-import {TaskStatuses, TaskType} from "../../../../api/API";
+import {TaskStatuses, TaskType} from "../../../../api/types";
 import style from './Task.module.scss'
-import {useActions} from "../../../../hooks/useActions";
+import {useActions} from "../../../../utils/hooks/useActions";
 import {taskAsyncActions} from "../../../../store/actionCreators";
 
 export type PropsType = {

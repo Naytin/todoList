@@ -3,10 +3,9 @@ import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../Components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/TodoList";
 import {Redirect} from "react-router-dom";
-import {useAppSelector} from "../../hooks/useAppSelector";
-import {useActions} from "../../hooks/useActions";
+import {useAppSelector} from "../../utils/hooks/useAppSelector";
+import {useActions, useAppDispatch} from "../../utils/hooks/useActions";
 import {todolistAsyncActions} from "../../store/actionCreators";
-import {useAppDispatch} from "../../store/store";
 
 
 export const TodolistsList: React.FC = () => {
