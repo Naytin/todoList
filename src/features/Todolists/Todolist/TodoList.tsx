@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from 'react';
-import {Button, IconButton} from '@material-ui/core';
+import {Box, Button, IconButton} from '@material-ui/core';
 import {Delete} from "@material-ui/icons";
 import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
@@ -10,6 +10,7 @@ import style from './TodoList.module.scss'
 import {useAppSelector} from "../../../utils/hooks/useAppSelector";
 import {useActions, useAppDispatch} from "../../../utils/hooks/useActions";
 import {taskAsyncActions, todolistAsyncActions} from "../../../store/actionCreators";
+
 
 type PropsType = {
     todolist: TodolistDomainType
@@ -93,18 +94,21 @@ export const Todolist = React.memo((props: PropsType) => {
 
     return <div className={style.todo}>
         <div className={style.title__wrapper}>
-            <EditableSpan fontSize={'20px'} value={props.title} onChange={changeTodoListTitle}
+            <EditableSpan fontSize={'22px'}
+                          fontWeight='bold'
+                          value={props.title}
+                          onChange={changeTodoListTitle}
                           disabled={statusLoading}/>
             <IconButton onClick={() => removeTodolistHandler(props.todolistId)} disabled={statusLoading}>
-                <Delete/>
+                <Delete />
             </IconButton>
         </div>
         <AddItemForm addItem={addTaskHandler} disabled={statusLoading}/>
-        <div>
+        <Box >
             {
                 task.length ? task : <span>No tasks - create your first task</span>
             }
-        </div>
+        </Box>
         <div className={style.btn__wrapper}>
             <Button variant='outlined' color={props.filter === 'all' ? "secondary" : "primary"} size='small'
                     onClick={onAllClickHandler}>All
@@ -118,5 +122,9 @@ export const Todolist = React.memo((props: PropsType) => {
         </div>
     </div>
 })
+
+
+
+
 
 

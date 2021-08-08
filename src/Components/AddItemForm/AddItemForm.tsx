@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {IconButton, TextField} from "@material-ui/core";
+import {IconButton, makeStyles, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
 
 export type PropsType = {
@@ -10,6 +10,8 @@ export type PropsType = {
 export const AddItemForm = React.memo(({addItem, disabled = false}: PropsType) => {
     let [error, setError] = useState<string | null>(null)
     let [title, setTitle] = useState("")
+
+    const styles = useStyles()
 
     const addItemHandler = async () => {
         if (title.trim() !== "") {
@@ -35,7 +37,8 @@ export const AddItemForm = React.memo(({addItem, disabled = false}: PropsType) =
         }
     }
 
-    return <div>
+    return (
+    <div className={styles.container}>
         <TextField value={title}
                    disabled={disabled}
                    onChange={onChangeHandler}
@@ -45,8 +48,17 @@ export const AddItemForm = React.memo(({addItem, disabled = false}: PropsType) =
                    variant='outlined'
                    className=''
         />
-        <IconButton size='small' color='primary' onClick={addItemHandler} disabled={disabled}>
-            <AddBox/>
+        <IconButton onClick={addItemHandler} disabled={disabled}>
+            <AddBox />
         </IconButton>
-    </div>
+    </div>)
 })
+
+const useStyles = makeStyles(() => ({
+    container: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: '10px'
+    },
+}));

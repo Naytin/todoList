@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.scss';
 import {
     AppBar,
@@ -7,7 +7,7 @@ import {
     Container,
     IconButton,
     LinearProgress,
-    makeStyles,
+    makeStyles, Menu, MenuItem,
     Toolbar,
     Typography
 } from "@material-ui/core";
@@ -22,7 +22,9 @@ import {appAsyncActions, authAsyncActions} from "../store/actionCreators";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        overflow: 'auto',
+        minHeight: 'calc(100vh - 64px)'
+
     },
     menuButton: {
         marginRight: theme.spacing(2),
@@ -30,6 +32,15 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+    menu: {
+        top: '50px',
+    },
+    progress: {
+        position: 'fixed',
+        top: '30%',
+        textAlign: 'center',
+        width: '100%'
+    }
 }));
 
 function App() {
@@ -39,6 +50,8 @@ function App() {
     const {initializeApp} = useActions(appAsyncActions)
     const {logout} = useActions(authAsyncActions)
 
+    const [anchor, setAnchor] = useState<null | HTMLElement>(null)
+
     const classes = useStyles();
     const history = useHistory()
 
@@ -46,13 +59,20 @@ function App() {
        logout()
     }, [])
 
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchor(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchor(null);
+    };
+
     useEffect(() => {
         initializeApp()
     }, [])
 
     if (!isInitialized) {
         return <div
-            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            className={classes.progress}>
             <CircularProgress/>
         </div>
     }
@@ -61,23 +81,37 @@ function App() {
             <ErrorSnackBar/>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <IconButton aria-controls='menu'
+                                aria-haspopup={true}
+                                edge="start"
+                                className={classes.menuButton}
+                                color="inherit"
+                                aria-label="menu"
+                                onClick={handleClick}
+                    >
                         <MenuIcon/>
                     </IconButton>
+                    <Menu id='menu'
+                          anchorEl={anchor}
+                          keepMounted
+                          open={Boolean(anchor)}
+                          onClose={handleClose}
+                    >
+                        <MenuItem >Settings</MenuItem>
+                        {
+                            !isLoggedIn ?
+                                <MenuItem disabled={history.location.pathname === '/login'}
+                                        onClick={() => history.push('/login')}>Login</MenuItem> :
+                                <MenuItem  onClick={handleLogout}>Log out</MenuItem>
+                        }
+                    </Menu>
                     <Typography variant="h6" className={classes.title}>
-                        My TODO
+                        TODOS
                     </Typography>
-                    {
-                        !isLoggedIn ?
-                            <Button disabled={history.location.pathname === '/login'}
-                                    variant='outlined' color="secondary"
-                                    onClick={() => history.push('/login')}>Login</Button> :
-                            <Button variant='outlined' color="secondary" onClick={handleLogout}>Log out</Button>
-                    }
                 </Toolbar>
             </AppBar>
-            {status === 'loading' && <LinearProgress color={"primary"}/>}
-            <Container fixed>
+            {status === 'loading' && <LinearProgress color={"primary"}/> }
+            <Container maxWidth='xl' className={classes.root} >
                     <Switch>
                         <Route exact path={'/'} render={() => <TodolistsList/>}/>
                         <Route path={'/login'} render={() => <Login/>}/>

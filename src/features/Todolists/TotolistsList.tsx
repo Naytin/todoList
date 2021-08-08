@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from "react";
-import {Grid, Paper} from "@material-ui/core";
+import {Grid, makeStyles, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../Components/AddItemForm/AddItemForm";
 import {Todolist} from "./Todolist/TodoList";
 import {Redirect} from "react-router-dom";
@@ -15,10 +15,12 @@ export const TodolistsList: React.FC = () => {
     const {fetchTodolists} = useActions(todolistAsyncActions)
     const {addTodolists} = todolistAsyncActions
 
+    const classes = useStyles()
+
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if(!isLoggedIn) {
+        if (!isLoggedIn) {
             return
         }
         fetchTodolists()
@@ -27,34 +29,33 @@ export const TodolistsList: React.FC = () => {
     const addTodoList = useCallback(async (title: string) => {
         const action = await dispatch(addTodolists(title))
 
-        //@ts-ignore
         if (addTodolists.rejected.match(action)) {
             if (action.payload?.fieldsErrors?.length) {
                 const error = action.payload?.fieldsErrors[0]
                 throw new Error(error.error)
-            }else {
+            } else {
                 throw new Error('Some error occurred')
             }
         }
     }, [])
 
-    if(!isLoggedIn) {
+    if (!isLoggedIn) {
         return <Redirect to={'/login'}/>
     }
     return <>
-        <Grid container  style={{padding: '20px'}}
+        <Grid container className={classes.container}
               justify="center"
               alignItems="center"
               direction="column">
-            <div style={{marginRight: '20px'}}>Add new task</div>
+            <h3 className={classes.title}>Add new task</h3>
             <AddItemForm addItem={addTodoList}/>
         </Grid>
-        <Grid container wrap={'nowrap'} style={{overflowY: 'auto', padding: '0  20px 200px'}}>
+        <Grid container wrap={'nowrap'} className={classes.todosContainer}>
             {todolists.map(t => {
                 let allTodoLists = tasks[t.id];
                 return (
-                    <Grid key={t.id} item style={{padding: '20px'}}>
-                        <Paper style={{padding: '10px'}}>
+                    <Grid key={t.id} item className={classes.container}>
+                        <Paper elevation={4} className={classes.container}>
                             <Todolist key={t.id}
                                       todolist={t}
                                       title={t.title}
@@ -69,3 +70,16 @@ export const TodolistsList: React.FC = () => {
         </Grid>
     </>
 }
+
+const useStyles = makeStyles(() => ({
+    container: {
+        padding: '20px',
+    },
+    todosContainer: {
+        padding: '0  20px 200px',
+    },
+    title: {
+        fontSize: '2rem',
+        textDecoration: 'upperCase'
+    }
+}));

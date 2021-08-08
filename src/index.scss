@@ -9,6 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: auto;
 }
 
 code {
@@ -26,7 +27,7 @@ button:focus,input:focus {
 }
 
 ::-webkit-scrollbar {
-  width: 1em;
+  width: 1rem;
 }
 
 ::-webkit-scrollbar-track {
@@ -39,6 +40,8 @@ button:focus,input:focus {
 }
 
 ::-webkit-scrollbar-thumb:horizontal{
+  position: fixed;
+  top: 0;
   background-color: #02a6e7;
   border-radius: 7px;
 }

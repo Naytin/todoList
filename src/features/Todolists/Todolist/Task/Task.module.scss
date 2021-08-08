@@ -2,20 +2,34 @@
   opacity: 0.5;
 }
 
-input {
-  padding: 5px!important;
+
+.draggable {
+  border-radius: 7px;
+  transition: 0.5s;
 }
 
+.draggable:hover {
+  cursor: pointer;
+  background: rgba(138, 138, 138, 0.15);
+}
 .task__wrapper {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  .content {
-    display: flex;
-    align-items: center;
+  background: #dbd8d85c;
+  box-shadow: 1px 1px 0 0 #33333342;
+  margin: 5px 0;
+  border-radius: 7px;
+  input {
+    padding: 5px!important;
   }
 
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   span {
-    display: block;
     word-break: break-all;
   }
 }
