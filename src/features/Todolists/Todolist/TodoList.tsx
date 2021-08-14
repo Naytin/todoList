@@ -1,15 +1,13 @@
 import React, {useCallback, useEffect} from 'react';
-import {Box, Button, IconButton} from '@material-ui/core';
-import {Delete} from "@material-ui/icons";
 import {AddItemForm} from "../../../Components/AddItemForm/AddItemForm";
 import {EditableSpan} from "../../../Components/EditableSpan/EditableSpan";
 import Task from "./Task/Task";
 import {changeFilterAC, FilterValuesType, TodolistDomainType,} from "../../../store/reducers/todolistReducer";
 import {TaskStatuses, TaskType} from "../../../api/types";
-import style from './TodoList.module.scss'
 import {useAppSelector} from "../../../utils/hooks/useAppSelector";
 import {useActions, useAppDispatch} from "../../../utils/hooks/useActions";
 import {taskAsyncActions, todolistAsyncActions} from "../../../store/actionCreators";
+import {icons} from "../../../assets/icons";
 
 
 type PropsType = {
@@ -58,8 +56,8 @@ export const Todolist = React.memo((props: PropsType) => {
         dispatch(changeFilterAC({filter: value, id: taskId}));
     }, [dispatch])
 
-    const removeTodolistHandler = useCallback((id: string) => {
-        removeTodolist(id)
+    const removeTodolistHandler = useCallback(() => {
+        removeTodolist(props.todolistId)
     }, [])
 
     const onAllClickHandler = useCallback(() => {
@@ -90,38 +88,55 @@ export const Todolist = React.memo((props: PropsType) => {
         />
     })
 
-    const statusLoading = props.todolist.entityStatus === 'loading'
+    const statusLoading = status === 'loading'
 
-    return <div className={style.todo}>
-        <div className={style.title__wrapper}>
+    return <div className='w-full p-4 border rounded-md shadow-xl bg-white'>
+        <div className='flex pb-8 justify-between'>
             <EditableSpan fontSize={'22px'}
                           fontWeight='bold'
                           value={props.title}
                           onChange={changeTodoListTitle}
                           disabled={statusLoading}/>
-            <IconButton onClick={() => removeTodolistHandler(props.todolistId)} disabled={statusLoading}>
-                <Delete />
-            </IconButton>
+            <button onClick={removeTodolistHandler} disabled={statusLoading}>{icons.trash}</button>
         </div>
-        <AddItemForm addItem={addTaskHandler} disabled={statusLoading}/>
-        <Box >
+        <AddItemForm
+            addItem={addTaskHandler}
+            disabled={statusLoading}
+            placeholder='Add new task'
+            icon={icons.plus}
+        />
+        <div className='task'>
             {
-                task.length ? task : <span>No tasks - create your first task</span>
+                props.tasks.length ? task
+                    :
+                    <span className='my-2 text-center bg-red-50 '>No tasks - create your first task</span>
             }
-        </Box>
-        <div className={style.btn__wrapper}>
-            <Button variant='outlined' color={props.filter === 'all' ? "secondary" : "primary"} size='small'
-                    onClick={onAllClickHandler}>All
-            </Button>
-            <Button variant='outlined' color={props.filter === 'active' ? "secondary" : "primary"} size='small'
-                    onClick={onActiveClickHandler}>Active
-            </Button>
-            <Button variant='outlined' color={props.filter === 'completed' ? "secondary" : "primary"} size='small'
-                    onClick={onCompletedClickHandler}>Completed
-            </Button>
+        </div>
+        <div className='w-full flex justify-between'>
+            <ButtonDefault text='All' filter={props.filter === 'all'} onclick={onAllClickHandler}/>
+            <ButtonDefault text='Active' filter={props.filter === 'active'} onclick={onActiveClickHandler}/>
+            <ButtonDefault text='Completed' filter={props.filter === 'completed'} onclick={onCompletedClickHandler}/>
         </div>
     </div>
 })
+
+type ButtonDefaultType = {
+    text: string
+    filter: boolean
+    onclick: () => void
+}
+const ButtonDefault = ({text,filter,onclick}: ButtonDefaultType) => {
+    return (
+        <button
+            onClick={onclick}
+            className={`transition duration-300 py-1 px-3 border-4 ${filter ? 'border-blue-300' : 'border-blue-600'} 
+            border-opacity-100 hover:border-opacity-75 rounded-lg shadow-md font-medium`}>
+            {text}
+        </button>
+    )
+}
+
+
 
 
 

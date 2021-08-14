@@ -1,13 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
-import {TextField} from "@material-ui/core";
-
 
 export type PropsType = {
     value: string
     onChange: (newValue: string) => void
     disabled?: boolean
     fontSize?: string
-    fontWeight?: "normal" | "inherit" | "-moz-initial" | "initial" | "revert" | "unset" | "bold" | (number & {}) | "bolder" | "lighter" | undefined
+    fontWeight?: "normal" | "inherit" | "-moz-initial" | "initial" | "revert" | "unset" | "bold" | (number & {}) |
+        "bolder" | "lighter" | undefined
 }
 
 export const EditableSpan = React.memo(({value, onChange, disabled = false, fontSize, fontWeight}: PropsType) => {
@@ -15,7 +14,7 @@ export const EditableSpan = React.memo(({value, onChange, disabled = false, font
     const [title, setTitle] = useState(value)
 
     const activateEditMode = () => {
-        if(!disabled) {
+        if (!disabled) {
             setEditMode(true)
             setTitle(value)
         }
@@ -24,10 +23,10 @@ export const EditableSpan = React.memo(({value, onChange, disabled = false, font
         setEditMode(false)
         onChange(title)
     }
-    const onChangeStatusHandler =(e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
     }
-    const onKeyPressHandler =(e: KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             setEditMode(false)
             onChange(title)
@@ -36,11 +35,13 @@ export const EditableSpan = React.memo(({value, onChange, disabled = false, font
 
     return (
         editMode ?
-            <TextField variant='outlined' value={title}
-                       onChange={onChangeStatusHandler}
-                       onKeyPress={onKeyPressHandler}
-                       onBlur={activateViewMode}
-                       autoFocus />
+            <input
+                className='p-1 border w-40'
+                value={title}
+                onChange={onChangeStatusHandler}
+                onKeyPress={onKeyPressHandler}
+                onBlur={activateViewMode}
+                autoFocus/>
             :
             <span style={{fontSize: fontSize, fontWeight: fontWeight}} onDoubleClick={activateEditMode}>{title}</span>
     )

@@ -1,0 +1,17 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(20rem,1fr));
+  justify-content: center;
+  grid-gap: 1rem;
+}
+
+.todo {
+  flex-basis: 20%;
+}
+
+
+//@media screen and (max-width: 1024px) {
+//  .todo {
+//    flex-basis: 10%;
+//  }
+//}
