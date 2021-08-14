@@ -48,7 +48,7 @@ function App() {
                     {menu ? icons.closeMenu : icons.openMenu}
                 </button>
                 <nav className='mt-2  absolute -bottom-22 left-0 z-0'>
-                    <ul className={` text-lg cursor-pointer transition duration-500 transform 
+                    <ul className={`text-lg cursor-pointer transition duration-500 transform 
                     ${menu ? '-translate-x-0' : '-translate-x-20'}`}>
 
                         {!isLoggedIn && <ItemMenu text='Login' >{icons.login}</ItemMenu>}
@@ -91,7 +91,7 @@ const ItemMenu = ({text, onclick, children, ...props}: ItemMenuType) => {
     return (
         <li onClick={onclick} className='flex justify-between items-center pl-2 hover:text-white bg-blue-100 hover:bg-blue-200 transition
         duration-500 transform hover:translate-x-2'>{text}
-            <span  className='ml-2 p-1 bg-blue-400 text-white'>
+            <span  className='pl-2 ml-2 p-1 bg-blue-400 text-white'>
                 {children}
             </span>
         </li>

@@ -68,7 +68,7 @@ export const Login = () => {
 
     return (
         <div className='flex justify-center items-center mt-8'>
-            <div className='w-10/12 sm:w-96 p-8 rounded-md bg-blue-200 flex flex-col items-center justify-center
+            <div className='w-11/12 sm:w-96 p-8 rounded-md bg-blue-200 flex flex-col items-center justify-center
             shadow-2xl relative'>
                 <InfoBox/>
                 <h3 className='font-medium text-white text-2xl my-4'>Sign in</h3>
@@ -107,17 +107,17 @@ export const Login = () => {
                                    type="checkbox"
                                    {...formik.getFieldProps('rememberMe')}
                             />
-                            <label htmlFor="remember" className='ml-2 font-medium text-white'>Remember me</label>
+                            <label htmlFor="remember" className='ml-2 font-medium text-xs sm:text-base text-white'>Remember me</label>
                         </div>
-                        <button >Forgot password?</button>
+                        <button className='text-xs sm:text-base'>Forgot password?</button>
                     </div>
                     <button className="font-bold hover:text-white shadow-lg w-full mb-5 mt-12 py-2 px-5 bg-yellow-300
                     hover:bg-yellow-400 border rounded-md transition duration-500
                     ease-in-out">Sign in
                     </button>
                     <div className='flex justify-center items-center'>
-                        <p>Don't have an account?</p>
-                        <button className='ml-2 font-medium text-white'>Sign in</button>
+                        <p className='text-xs sm:text-base'>Don't have an account?</p>
+                        <button className='ml-2  text-xs sm:text-base font-medium text-white'>Sign in</button>
                     </div>
                 </form>
             </div>
