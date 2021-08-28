@@ -36,7 +36,7 @@ export const EditableSpan = React.memo(({value, onChange, disabled = false, font
     return (
         editMode ?
             <input
-                className='p-1 border w-40'
+                className='w-40'
                 value={title}
                 onChange={onChangeStatusHandler}
                 onKeyPress={onKeyPressHandler}

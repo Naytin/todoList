@@ -29,7 +29,7 @@ export const InfoBox = ({children, ...restprops}:Ibox) => {
                         </a>
                     </p>
                     <p>or use test account credentials:</p>
-                    <p>EMAIL: nikitinasv12@gmail.com</p>
+                    <p>EMAIL: worlddesign1987@gmail.com</p>
                     <p>PASSWORD: 123456</p>
                 </div>
 
