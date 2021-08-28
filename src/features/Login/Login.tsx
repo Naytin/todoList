@@ -24,8 +24,8 @@ export const Login = () => {
 
     const formik = useFormik({
         initialValues: {
-            email: '',
-            password: '',
+            email: 'worlddesign1987@gmail.com',
+            password: '123456',
             rememberMe: false
         },
         validate: (values) => {
@@ -78,7 +78,7 @@ export const Login = () => {
                             {icons.email}
                         </div>
                         <input
-                            className="border-2 shadow-lg rounded-xl px-10 py-2 my-5 w-full"
+                            className="border-2 shadow-lg rounded-xl pl-10 pr-4 py-2 my-5 w-full"
                             type="text"
                             placeholder="Email"
                             {...formik.getFieldProps('email')}
@@ -92,7 +92,7 @@ export const Login = () => {
                             {!show ? icons.lock : icons.unlock}
                         </div>
                         <input
-                            className="border-2 shadow-lg rounded-xl  px-10 my-5 py-2  w-full"
+                            className="border-2 shadow-lg rounded-xl  pl-10 pr-4 my-5 py-2  w-full"
                             type={show ? "text" : "password"}
                             placeholder="Password"
                             {...formik.getFieldProps('password')}
